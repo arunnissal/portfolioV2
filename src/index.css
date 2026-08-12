@@ -1,0 +1,166 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+:root {
+  --font-sans: 'Outfit', system-ui, -apple-system, sans-serif;
+  --font-mono: 'Space Grotesk', ui-monospace, monospace;
+  
+  /* Mid-Tone Gunmetal Slate & Neon Theme (Cyan + Pink) */
+  --color-primary-dark: #161720;      /* Gunmetal Slate */
+  --color-secondary-dark: #202230;    /* Titanium Gray */
+  --color-slate-card: rgba(32, 34, 48, 0.55); /* Frosted Slate Glass */
+  --color-accent-blue: #06b6d4;       /* Electric Cyan */
+  --color-accent-blue-hover: #ec4899; /* Hot Pink */
+  --color-accent-teal: #d946ef;       /* Neon Purple */
+  --color-accent-gold: #3b82f6;       /* Cobalt Blue */
+  --color-accent-purple: #f43f5e;     /* Rose Red */
+  --color-text-light: #f8fafc;        
+  --color-text-muted: #cbd5e1;        
+}
+
+@theme {
+  --color-primary-dark: var(--color-primary-dark);
+  --color-secondary-dark: var(--color-secondary-dark);
+  --color-slate-card: var(--color-slate-card);
+  --color-accent-blue: var(--color-accent-blue);
+  --color-accent-blue-hover: var(--color-accent-blue-hover);
+  --color-accent-teal: var(--color-accent-teal);
+  --color-accent-gold: var(--color-accent-gold);
+  --color-accent-purple: var(--color-accent-purple);
+  --color-text-light: var(--color-text-light);
+  --color-text-muted: var(--color-text-muted);
+  
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+}
+
+@layer base {
+  html, body {
+    height: 100%;
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+  
+  body {
+    background-color: var(--color-primary-dark);
+    color: var(--color-text-light);
+    font-family: var(--font-sans);
+  }
+
+  /* Custom premium scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-primary-dark);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-secondary-dark);
+    border-radius: 9999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-accent-blue);
+  }
+}
+
+/* Vaporwave spotlight mouse follower */
+.spotlight-overlay {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  background: radial-gradient(800px circle at var(--mouse-x, 0px) var(--mouse-y, 0px), rgba(236, 72, 153, 0.04), transparent 80%);
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* Glassmorphic frosted cards with neon glows */
+.glass-card {
+  background: var(--color-slate-card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.35);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-card:hover {
+  border-color: rgba(236, 72, 153, 0.25);
+  box-shadow: 0 12px 40px 0 rgba(6, 182, 212, 0.08), 0 0 15px 0 rgba(236, 72, 153, 0.06);
+  transform: translateY(-3px);
+}
+
+/* Navigation frosted glass bar */
+.glassmorphism-nav {
+  background: rgba(3, 2, 9, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Animations for scanner & orbits */
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 0.2;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.45;
+    transform: scale(1.08);
+  }
+}
+
+@keyframes scanline {
+  0% { top: -2%; }
+  50% { top: 102%; }
+  100% { top: -2%; }
+}
+
+@keyframes orbit1 {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes orbit2 {
+  0% { transform: rotate(360deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.animate-glow-pulse {
+  animation: pulseGlow 6s ease-in-out infinite;
+}
+
+.laser-scan {
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #ec4899, transparent);
+  box-shadow: 0 0 10px #ec4899, 0 0 20px #ec4899;
+  animation: scanline 4s linear infinite;
+}
+
+.orbit-ring-1 {
+  animation: orbit1 25s linear infinite;
+}
+
+.orbit-ring-2 {
+  animation: orbit2 30s linear infinite;
+}
+
+/* Custom Text Gradients */
+.text-gradient {
+  background: linear-gradient(135deg, #06b6d4 0%, #ec4899 50%, #d946ef 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-pink {
+  background: linear-gradient(135deg, #ec4899 0%, #06b6d4 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Card Hover Glare effect overlay */
+.card-glare {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, transparent 60%);
+}
