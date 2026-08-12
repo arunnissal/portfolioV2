@@ -24,7 +24,7 @@ export default function Hero() {
   };
 
   return (
-    <section className="min-h-screen flex items-center justify-center relative pt-28 pb-12 px-6 overflow-hidden w-screen">
+    <section className="min-h-screen flex items-center justify-center relative pt-36 pb-12 px-6 md:pt-44 overflow-hidden w-screen">
       <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-16 items-center z-10">
         
         {/* Left Column: Heading, Bio, CTAs & Mock IDE Terminal */}

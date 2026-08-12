@@ -1,4 +1,5 @@
 import React from 'react';
+import avatarImg from '../assets/avatar.jpeg';
 
 export default function ThreeDPhoto({ isHovered = false }) {
   return (
@@ -16,7 +17,7 @@ export default function ThreeDPhoto({ isHovered = false }) {
 
         {/* The portrait picture */}
         <img 
-          src="/src/assets/avatar.jpeg" 
+          src={avatarImg} 
           alt="Arunnissal B"
           className={`w-full h-full object-cover transition-all duration-700 ease-out ${
             isHovered ? 'grayscale-0 brightness-[1.05] contrast-[1.02]' : 'grayscale-[40%] brightness-95'
