@@ -194,10 +194,10 @@
 /* Shifting 3D liquid mesh background gradient color */
 .bg-gradient-3d {
   background: 
-    radial-gradient(at 10% 20%, rgba(2, 132, 199, 0.12) 0px, transparent 50%),
-    radial-gradient(at 90% 10%, rgba(202, 138, 4, 0.12) 0px, transparent 50%),
-    radial-gradient(at 50% 80%, rgba(139, 92, 246, 0.08) 0px, transparent 50%),
-    radial-gradient(at 80% 90%, rgba(13, 148, 136, 0.08) 0px, transparent 50%),
+    radial-gradient(at 10% 20%, rgba(2, 132, 199, 0.22) 0px, transparent 55%),
+    radial-gradient(at 90% 10%, rgba(202, 138, 4, 0.22) 0px, transparent 55%),
+    radial-gradient(at 50% 80%, rgba(139, 92, 246, 0.18) 0px, transparent 55%),
+    radial-gradient(at 80% 90%, rgba(13, 148, 136, 0.18) 0px, transparent 55%),
     #f8fafc;
   background-size: 140% 140%;
   animation: waveGradients 25s ease infinite;
