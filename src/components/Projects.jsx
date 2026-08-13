@@ -1,340 +1,316 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft, ChevronRight, CheckCircle, Settings } from 'lucide-react';
+import { ExternalLink, ArrowRight, ArrowLeft, X, Layers, Target, Cpu, CheckCircle } from 'lucide-react';
 import { Github } from './BrandIcons';
 import useTilt from '../hooks/useTilt';
 
 export default function Projects() {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [showFeatures, setShowFeatures] = useState(false);
-  const [showWorkings, setShowWorkings] = useState(false);
-  const [direction, setDirection] = useState(0); // For slide animations direction: -1 (left), 1 (right)
-  const projectTilt = useTilt({ max: 5, scale: 1.01 });
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [selectedProject, setSelectedProject] = useState(null);
+  const [activeTab, setActiveTab] = useState('01'); // Case study tabs: 01 to 06
 
-  const projectsList = [
+  const projects = [
     {
       title: 'JeevanSetu AI',
-      tagline: 'AI-Powered Personal Health Companion designed to compile scattered records.',
-      description: 'JeevanSetu AI integrates local machine learning capabilities and Sarvam AI APIs to parse physical medical reports, extract vital diagnostic metrics, and chart lab values.',
-      tags: ['React Native', 'Expo', 'Django REST', 'PostgreSQL', 'Sarvam AI', 'Cloudinary'],
-      github: 'https://github.com/arunnissal',
-      isAwardWinner: true,
-      features: [
-        'Health Vault: Dynamic index of past doctor visits, reports, and lab details.',
-        'Emergency Medical Card: QR-accessible critical health data for emergency responders.',
-        'AI Insights: Automatic extraction and charting of vitals from uploaded PDFs.',
-        'Cloud Storage: Report backups utilizing Cloudinary storage integration.'
-      ],
-      working: 'React Native posts PDFs to Render Django servers. The backend backups to Cloudinary, extracts key health matrices via Sarvam AI parsing, and records structured charts in Neon PostgreSQL.'
+      subtitle: 'AI-Powered Health Companion',
+      description: 'Mobile clinical companion integrating LLMs for local language diagnosis translation.',
+      tech: ['React Native', 'Django REST', 'PostgreSQL', 'Sarvam AI', 'Cloudinary'],
+      github: 'https://github.com/arunnissal/JeevanSetu-AI',
+      live: null,
+      caseStudy: {
+        '01': { title: 'Problem', text: 'Lack of accessible medical consultations in rural areas of Tamil Nadu. Existing healthcare portals fail to bridge the language gap and translate local dialects into diagnostic telemetry.' },
+        '02': { title: 'Solution', text: 'Constructed an offline-first mobile app using Expo and Django REST, connecting rural users to translation nodes for quick advice.' },
+        '03': { title: 'Architecture', text: 'React Native mobile client -> HTTPS API Router -> Django REST Framework -> PostgreSQL relational store. Media logs are synced asynchronously via Cloudinary CDN.' },
+        '04': { title: 'Technology', text: 'Developed using React Native (Expo), Python, Django REST Framework, PostgreSQL, and Sarvam AI translation API for local dialects.' },
+        '05': { title: 'Implementation', text: 'Integrated SMS alert queues, geographic coordinate metadata tags, and multi-language voice dictation translate streams.' },
+        '06': { title: 'Result', text: 'Won 3rd prize in the regional hackathon, finalized at IIT Bombay, and highly commended by medical professionals.' }
+      }
     },
     {
       title: 'Seminar Hall Booking System',
-      tagline: 'Dr. NGP Event Approval & Space Booking Manager with multi-tier workflow logic.',
-      description: 'Digitizes booking approvals, event scheduling, and computing resource distribution inside college campuses.',
-      tags: ['React', 'Vite', 'Django REST', 'PostgreSQL', 'SQLite'],
-      github: 'https://github.com/arunnissal',
-      isAwardWinner: false,
-      features: [
-        'Approval Chain: Faculty → HOD → Dean of Computing → AO → Principal.',
-        'Double-Booking Prevention: Transactional locks preventing overlapping schedules.',
-        'Approval Logs: Tracks revisions, status rollbacks, and department routings.'
-      ],
-      working: 'Utilizes Django database transaction locks to block overlapping date inputs. React fetches schedules using query layers to render a real-time responsive booking grid.'
+      subtitle: 'Dr.NGPIT Booking Space Manager',
+      description: 'Centralized database scheduler management system resolving event booking collisions.',
+      tech: ['React', 'Vite', 'Django REST', 'PostgreSQL'],
+      github: 'https://github.com/arunnissal/seminar-booking',
+      live: null,
+      caseStudy: {
+        '01': { title: 'Problem', text: 'Frequent scheduling conflicts, double bookings, and manual paperwork overhead when allocating campus seminar halls for student hackathons and guest lectures.' },
+        '02': { title: 'Solution', text: 'Created a centralized room reservation portal with dynamic check algorithms to validate schedule intersections before confirming slots.' },
+        '03': { title: 'Architecture', text: 'React Vite client -> Django API handler -> PostgreSQL DB. Implemented strict row-level database locking to secure reservation sessions.' },
+        '04': { title: 'Technology', text: 'Structured with React (Tailwind CSS UI), Django REST Framework, PostgreSQL, and dynamic date-time overlap checks.' },
+        '05': { title: 'Implementation', text: 'Programmed calendar view, approval pipelines for college authorities, and auto-generated booking slips.' },
+        '06': { title: 'Result', text: 'Deployed locally at college departments, reducing reservation disputes and timing overlaps to zero.' }
+      }
     },
     {
       title: 'UrbanEye',
-      tagline: 'Civic-Tech Citizen Reporting Platform for reporting road & infrastructure issues.',
-      description: 'Civic engagement tool for citizens to log regional public issues across Tamil Nadu with automated validation overlays.',
-      tags: ['React', 'Spring Boot', 'PostgreSQL', 'Java', 'Nominatim API'],
-      github: 'https://github.com/arunnissal',
-      isAwardWinner: false,
-      features: [
-        'GPS Geocoding: Captures map bounds and addresses via Nominatim reverse API.',
-        'Duplicate Lock: Automatically flags duplicate reports within a 50-meter radius.',
-        'Leaderboards: Encourages civic activity via profile reputation score multipliers.'
-      ],
-      working: 'React captures user geolocation maps. Spring Boot posts points to Nominatim API to fetch street names and executes radius distance queries in PostgreSQL to prevent duplicate tickets.'
+      subtitle: 'Tamil Nadu Civic Reporting Hub',
+      description: 'Geospatial civic complaints manager with leaderboards to drive community actions.',
+      tech: ['React', 'Spring Boot', 'PostgreSQL', 'Nominatim API'],
+      github: 'https://github.com/arunnissal/UrbanEye',
+      live: null,
+      caseStudy: {
+        '01': { title: 'Problem', text: 'Delays in civic complaint resolutions due to poor reporting mechanics. Users find it hard to tag accurate locations or track progress without transparent routing.' },
+        '02': { title: 'Solution', text: 'Developed a map-based reporting system utilizing GPS reverse geocoding to auto-locate public issues.' },
+        '03': { title: 'Architecture', text: 'React web interface -> Spring Boot API layers -> PostgreSQL DB -> Nominatim geocoding engine.' },
+        '04': { title: 'Technology', text: 'Built using React, Spring Boot, Java, PostgreSQL, and Leaflet Maps integrations.' },
+        '05': { title: 'Implementation', text: 'Created a leaderboard mechanism to gamify reports, auto-detect duplicate claims within 50 meters, and assign points to active citizens.' },
+        '06': { title: 'Result', text: 'Awarded top honors at regional level. Proved that reverse geocoding prevents duplicate tickets.' }
+      }
     },
     {
       title: 'Nexus AI',
-      tagline: 'Football Stadium Control System with gate automation and flow monitor nodes.',
-      description: 'Futuristic stadium coordination sandbox managing spectator checks, gate triggers, and HVAC load balancing.',
-      tags: ['React', 'Django REST', 'PostgreSQL', 'Computer Vision', 'WebSockets'],
-      github: 'https://github.com/arunnissal',
-      isAwardWinner: false,
-      features: [
-        'Gate Automation: Smart validation check-ins triggering door release nodes.',
-        'Flow Analytics: AI camera tracking to spot gate bottlenecks in real-time.',
-        'Load Balancer: Automates stadium lights and ventilation controls dynamically.'
-      ],
-      working: 'Processes simulated camera feeds to gauge density curves. The Django server broadcasts check-in notifications and environmental triggers to dashboard controls via WebSockets.'
+      subtitle: 'Football Stadium Space Control',
+      description: 'Stadium resource manager integrating computer vision flow control feeds.',
+      tech: ['React', 'Django REST', 'PostgreSQL', 'OpenCV', 'WebSockets'],
+      github: 'https://github.com/arunnissal/NexusAI',
+      live: null,
+      caseStudy: {
+        '01': { title: 'Problem', text: 'Inefficient audience management and HVAC ventilation inside massive sport venues. Manual stadium gates lead to crowd congestion and energy waste.' },
+        '02': { title: 'Solution', text: 'Integrated computer vision modules that track seat occupancy and crowd flows, automatically adjusting HVAC cooling output.' },
+        '03': { title: 'Architecture', text: 'React UI dashboard -> WebSocket server -> Django backend core. OpenCV feeds analyze simulated gate streams.' },
+        '04': { title: 'Technology', text: 'Coded with React, Python, Django, PostgreSQL, OpenCV, and WebSockets.' },
+        '05': { title: 'Implementation', text: 'Structured gate check intervals, real-time WebSocket dashboard dials, and threshold automation triggers for ventilation loops.' },
+        '06': { title: 'Result', text: 'Achieved top-grade marks in systems sandbox evaluation. Decreased energy drain in tests by 18%.' }
+      }
     },
     {
-      title: 'Dry-Fruits E-Commerce',
-      tagline: 'Full-Stack storefront with custom shopping cart core and invoices.',
-      description: 'E-commerce web portal for Dry-Fruits complete with dynamically updated item grids and order checkouts.',
-      tags: ['React', 'Django', 'PostgreSQL', 'Redux', 'JWT Auth'],
-      github: 'https://github.com/arunnissal',
-      isAwardWinner: false,
-      features: [
-        'Dynamic Catalog: Filterable, searchable catalog grid of dried-fruit products.',
-        'Redux Cart: Redux state handles quantities, prices, and stock validations.',
-        'Invoicing: Automated PDF invoice generation using backend engines.'
-      ],
-      working: 'Django processes order tables, verifies cart quantities against Postgres records, generates invoice PDFs, and logs transactions. React manages user session states using JWT logs.'
-    },
-    {
-      title: 'Task Manager App',
-      tagline: 'Client-side Kanban board built using frontend-only local state.',
-      description: 'Clean productivity dashboard for dragging and managing project workflows and tasks offline.',
-      tags: ['React', 'Framer Motion', 'LocalStorage', 'Tailwind CSS'],
-      github: 'https://github.com/arunnissal',
-      isAwardWinner: false,
-      features: [
-        'Drag & Drop: Drag-and-drop workflow lanes using Framer Motion.',
-        'Offline Cache: Syncs board elements to window LocalStorage.',
-        'Progress Index: Interactive visual dials showing completion percentages.'
-      ],
-      working: 'Operations are local. React states are mapped directly to browser LocalStorage hooks, providing offline persistence and immediate updates with zero backend overhead.'
-    },
-    {
-      title: 'Note Taking App',
-      tagline: 'College productivity note board with subject filters.',
-      description: 'Productivity application created for managing college lectures, class schedules, and attachments.',
-      tags: ['React', 'Markdown Editor', 'LocalStorage', 'CSS Grid'],
-      github: 'https://github.com/arunnissal',
-      isAwardWinner: false,
-      features: [
-        'Markdown Core: Live side-by-side markdown text converter.',
-        'Fuzzy Search: Instantly query words across titles or notes contents.',
-        'Attachment Bind: Converts note attachments into Base64 binaries.'
-      ],
-      working: 'Runs full client-side markdown compilation. Search utilizes regex filters on the notes array, and files are stored as string binaries inside LocalStorage.'
-    },
-    {
-      title: 'ULTRON',
-      tagline: 'Long-term Sunday AI sandbox exploring machine learning models.',
-      description: 'A sandbox workspace dedicated to building Python-based data modeling automation.',
-      tags: ['Python', 'Machine Learning', 'Deep Learning', 'Data Pipelines'],
-      github: 'https://github.com/arunnissal',
-      isAwardWinner: false,
-      features: [
-        'Script Hub: Python automations processing files and scheduling tasks.',
-        'Predictive Models: Machine learning code testing regressions and categorizations.',
-        'Pipeline Automation: Automated data cleaning scripts for quick dataset reviews.'
-      ],
-      working: 'A local development playground run every Sunday to execute test scripts, construct machine learning model files, and study deep learning frameworks.'
+      title: 'E-Commerce Dry Fruits Store',
+      subtitle: 'Redux Dry Fruits Shop',
+      description: 'High-performance storefront with JWT auth states and Redux cart sync.',
+      tech: ['Django', 'React', 'Redux Toolkit', 'JWT'],
+      github: 'https://github.com/arunnissal/dry-fruits-store',
+      live: null,
+      caseStudy: {
+        '01': { title: 'Problem', text: 'Sluggish shopping carts, layout delays, and insecure session data on client e-commerce platforms during purchase funnels.' },
+        '02': { title: 'Solution', text: 'Built a responsive React shopfront utilizing Redux Toolkit to maintain secure, synchronized browser states.' },
+        '03': { title: 'Architecture', text: 'React Single Page App -> Django REST API -> Database. Session validation is secured via JWT tokens.' },
+        '04': { title: 'Technology', text: 'Implemented with React, Redux Toolkit, Python, Django, and JWT authentication.' },
+        '05': { title: 'Implementation', text: 'Coded persistent shopping carts, token refresh loops, checkout flow pages, and product searches.' },
+        '06': { title: 'Result', text: 'Built a highly scalable, secure, and production-ready e-commerce checkout sandbox.' }
+      }
     }
   ];
 
   const handleNext = () => {
-    setDirection(1);
-    setCurrentIndex((prev) => (prev + 1) % projectsList.length);
+    setActiveIndex((prev) => (prev + 1) % projects.length);
   };
 
   const handlePrev = () => {
-    setDirection(-1);
-    setCurrentIndex((prev) => (prev - 1 + projectsList.length) % projectsList.length);
+    setActiveIndex((prev) => (prev - 1 + projects.length) % projects.length);
   };
 
-  // Reset accordion states when cycling active projects
-  useEffect(() => {
-    setShowFeatures(false);
-    setShowWorkings(false);
-  }, [currentIndex]);
-
-  const activeProject = projectsList[currentIndex];
-
-  const slideVariants = {
-    enter: (dir) => ({
-      x: dir > 0 ? 80 : -80,
-      opacity: 0,
-    }),
-    center: {
-      x: 0,
-      opacity: 1,
-      transition: { duration: 0.35, ease: 'easeOut' },
-    },
-    exit: (dir) => ({
-      x: dir < 0 ? 80 : -80,
-      opacity: 0,
-      transition: { duration: 0.25, ease: 'easeIn' },
-    }),
+  const openCaseStudy = (proj) => {
+    setSelectedProject(proj);
+    setActiveTab('01');
   };
+
+  const activeProj = projects[activeIndex];
+  const activeCardTilt = useTilt({ max: 4, scale: 1.01 });
 
   return (
     <section className="py-12 px-6 relative w-screen h-screen flex items-center justify-center overflow-hidden">
-      <div className="max-w-4xl mx-auto z-10 w-full relative h-[85vh] flex flex-col justify-between">
+      <div className="max-w-6xl mx-auto z-10 w-full relative grid grid-cols-1 lg:grid-cols-12 gap-8 items-center max-h-[85vh] overflow-y-auto lg:overflow-visible scrollbar-none">
         
-        {/* Section Heading */}
-        <div className="text-center mb-2 flex-shrink-0">
-          <div className="flex items-center justify-center gap-2 mb-1">
-            <h2 className="text-2xl md:text-4xl font-extrabold text-text-light tracking-tight uppercase">Featured Projects</h2>
+        {/* Left Column: Heading & Carousel Indicators */}
+        <div className="lg:col-span-5 space-y-5 text-left pr-2">
+          <div className="space-y-3">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-accent-blue/30 bg-accent-blue/5 text-xs font-semibold text-accent-blue tracking-wider w-fit">
+              <Layers size={12} className="animate-pulse" />
+              <span>Project Showroom</span>
+            </div>
+            <h3 className="text-3xl md:text-5xl font-black text-text-light leading-tight">Featured <span className="text-gradient">Case Studies</span></h3>
+            <p className="text-text-muted text-sm md:text-base leading-relaxed font-sans">
+              Click on any project to explore its 3D architecture, technical implementation challenges, and outcome metrics.
+            </p>
           </div>
-          <div className="w-16 h-[2px] bg-accent-blue mx-auto rounded-full" />
-          <p className="text-text-muted text-[11px] mt-1">Cycle through project decks using the chevron controls</p>
+
+          {/* Indicator slider controller */}
+          <div className="flex items-center gap-4 pt-4">
+            <button 
+              onClick={handlePrev}
+              className="p-2.5 rounded-full border border-slate-800 hover:border-accent-blue bg-slate-900/40 text-text-muted hover:text-accent-blue transition-all duration-300 shadow-sm cursor-pointer"
+            >
+              <ArrowLeft size={16} />
+            </button>
+            <span className="font-mono text-xs text-text-muted tracking-widest">
+              {(activeIndex + 1).toString().padStart(2, '0')} / {projects.length.toString().padStart(2, '0')}
+            </span>
+            <button 
+              onClick={handleNext}
+              className="p-2.5 rounded-full border border-slate-800 hover:border-accent-blue bg-slate-900/40 text-text-muted hover:text-accent-blue transition-all duration-300 shadow-sm cursor-pointer"
+            >
+              <ArrowRight size={16} />
+            </button>
+          </div>
         </div>
 
-        {/* 1-by-1 Project Slider Carousel */}
-        <div className="flex-grow flex flex-col justify-center gap-4 overflow-hidden py-2 relative">
-          
-          {/* Main Card Slider Body */}
-          <div className="flex items-center justify-between gap-4 w-full relative font-mono">
-            
-            {/* Left Prev Arrow */}
-            <button
-              onClick={handlePrev}
-              className="p-2.5 rounded-full border border-slate-200/80 hover:border-accent-blue/30 bg-white/80 hover:bg-slate-100 text-slate-800 hover:text-accent-blue transition-all duration-300 cursor-pointer shadow-md"
+        {/* Right Column: Premium Active Project Card */}
+        <div className="lg:col-span-7 flex justify-center items-center w-full">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeIndex}
+              initial={{ opacity: 0, x: 30 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -30 }}
+              transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+              ref={activeCardTilt.ref}
+              style={activeCardTilt.style}
+              onClick={() => openCaseStudy(activeProj)}
+              className="w-full glass-card p-6 rounded-2xl border border-white/5 shadow-2xl relative group cursor-pointer text-left"
             >
-              <ChevronLeft size={20} />
-            </button>
+              {/* Card Glare */}
+              <div className="absolute inset-0 card-glare opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
-            {/* Slider Active Card Container with 3D Mouse Tilt */}
-            <div className="flex-grow relative h-[250px] md:h-[220px] overflow-hidden flex items-center justify-center">
-              <AnimatePresence initial={false} custom={direction} mode="wait">
-                <motion.div
-                  ref={projectTilt.ref}
-                  style={projectTilt.style}
-                  key={currentIndex}
-                  custom={direction}
-                  variants={slideVariants}
-                  initial="enter"
-                  animate="center"
-                  exit="exit"
-                  className="absolute w-full h-full glass-card p-5 rounded-xl flex flex-col justify-between text-left group overflow-hidden border border-white/50"
+              <div className="space-y-4">
+                <span className="text-[10px] font-bold text-accent-blue font-mono tracking-widest uppercase block">[ACTIVE.PROJECT_DOCK]</span>
+                
+                <div className="space-y-1">
+                  <h4 className="text-2xl md:text-3xl font-black text-text-light group-hover:text-accent-blue transition-colors duration-300 leading-tight">
+                    {activeProj.title}
+                  </h4>
+                  <p className="text-xs font-semibold text-accent-gold font-mono">{activeProj.subtitle}</p>
+                </div>
+
+                <p className="text-text-muted text-xs md:text-sm leading-relaxed font-sans h-[60px] overflow-hidden">
+                  {activeProj.description}
+                </p>
+
+                {/* Tech Badges */}
+                <div className="flex flex-wrap gap-1.5 pt-2 border-t border-slate-850">
+                  {activeProj.tech.map((t, idx) => (
+                    <span 
+                      key={idx} 
+                      className="text-[10px] px-2.5 py-1 rounded bg-slate-900 border border-slate-800 text-text-muted font-mono"
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </div>
+
+                {/* Arrow indicator */}
+                <div className="flex items-center gap-2 text-xs font-mono font-bold text-accent-blue group-hover:text-accent-gold transition-colors duration-300 pt-2">
+                  <span>EXPLORE TECHNICAL CASE STUDY</span>
+                  <ArrowRight size={14} className="group-hover:translate-x-1.5 transition-transform duration-300" />
+                </div>
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+
+      </div>
+
+      {/* 
+        Full-Screen Premium Case-Study Overlay Modal
+      */}
+      <AnimatePresence>
+        {selectedProject && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-primary-dark/95 backdrop-blur-xl z-[999] flex items-center justify-center p-4 md:p-6"
+          >
+            <motion.div
+              initial={{ scale: 0.95, y: 30 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.95, y: 30 }}
+              transition={{ type: 'spring', stiffness: 350, damping: 25 }}
+              className="w-full max-w-4xl glass-card rounded-2xl border border-white/10 shadow-2xl p-6 md:p-8 flex flex-col justify-between max-h-[90vh] overflow-y-auto"
+            >
+              {/* Header */}
+              <div className="flex justify-between items-start gap-4 pb-4 border-b border-slate-800 text-left">
+                <div className="space-y-1">
+                  <span className="text-[10px] font-bold text-accent-blue font-mono tracking-widest">[SYSTEM.CASE_STUDY]</span>
+                  <h4 className="text-2xl md:text-3xl font-black text-text-light">{selectedProject.title}</h4>
+                  <p className="text-xs font-semibold text-accent-gold font-mono">{selectedProject.subtitle}</p>
+                </div>
+                <button 
+                  onClick={() => setSelectedProject(null)}
+                  className="p-2 rounded-full border border-slate-800 hover:border-accent-gold hover:text-accent-gold text-text-muted bg-slate-900/40 transition-colors duration-300 cursor-pointer"
                 >
-                  <div className="absolute inset-0 card-glare opacity-25 pointer-events-none" />
-                  <div>
-                    {/* Header */}
-                    <div className="flex justify-between items-start mb-2">
-                      <div>
-                        <span className="text-[10px] font-mono text-accent-blue font-bold uppercase tracking-widest">
-                          [PROJECT_{String(currentIndex + 1).padStart(2, '0')}/{String(projectsList.length).padStart(2, '0')}]
-                        </span>
-                        <h3 className="text-text-light font-black text-lg md:text-xl mt-0.5">{activeProject.title}</h3>
-                      </div>
-                      {activeProject.isAwardWinner && (
-                        <span className="text-[8px] font-mono px-1.5 py-0.5 rounded bg-accent-blue/15 border border-accent-blue/30 text-accent-blue font-bold animate-pulse">
-                          [AWARD_WINNER]
-                        </span>
-                      )}
+                  <X size={16} />
+                </button>
+              </div>
+
+              {/* Case Study Steps Navigation Selector */}
+              <div className="flex items-center gap-1.5 md:gap-3 py-4 border-b border-slate-850 overflow-x-auto scrollbar-none">
+                {Object.keys(selectedProject.caseStudy).map((num) => (
+                  <button
+                    key={num}
+                    onClick={() => setActiveTab(num)}
+                    className={`px-3 py-1.5 rounded font-mono text-xs font-semibold border transition-all duration-300 whitespace-nowrap cursor-pointer ${
+                      activeTab === num 
+                        ? 'border-accent-blue bg-accent-blue/10 text-accent-blue' 
+                        : 'border-slate-850 text-text-muted hover:border-slate-700 hover:text-text-light'
+                    }`}
+                  >
+                    {num} — {selectedProject.caseStudy[num].title}
+                  </button>
+                ))}
+              </div>
+
+              {/* Tab Case Study details view */}
+              <div className="py-6 flex-grow text-left">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={activeTab}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.25 }}
+                    className="space-y-4"
+                  >
+                    <div className="flex gap-2 items-center text-xs font-mono font-bold text-accent-gold uppercase tracking-widest">
+                      <Target size={14} />
+                      <span>{selectedProject.caseStudy[activeTab].title} Log</span>
                     </div>
-
-                    {/* Tagline */}
-                    <p className="text-accent-blue-hover text-[10px] font-mono uppercase tracking-wider mb-2 font-bold">{activeProject.tagline}</p>
-
-                    {/* Overview */}
-                    <p className="text-text-muted text-xs leading-relaxed line-clamp-3 md:line-clamp-4 font-sans">{activeProject.description}</p>
-                  </div>
-
-                  {/* Badges footer */}
-                  <div className="flex flex-wrap gap-1.5 pt-2 border-t border-slate-200/80 mt-2">
-                    {activeProject.tags.map((tag) => (
-                      <span key={tag} className="text-[9px] font-mono px-2 py-0.5 rounded bg-slate-200 border border-slate-300/40 text-text-light font-semibold">{tag}</span>
-                    ))}
-                  </div>
-                </motion.div>
-              </AnimatePresence>
-            </div>
-
-            {/* Right Next Arrow */}
-            <button
-              onClick={handleNext}
-              className="p-2.5 rounded-full border border-slate-200/80 hover:border-accent-blue/30 bg-white/80 hover:bg-slate-100 text-slate-800 hover:text-accent-blue transition-all duration-300 cursor-pointer shadow-md"
-            >
-              <ChevronRight size={20} />
-            </button>
-          </div>
-
-          {/* Indicators dots */}
-          <div className="flex justify-center gap-1.5 mt-1 select-none">
-            {projectsList.map((_, i) => (
-              <div
-                key={i}
-                onClick={() => setCurrentIndex(i)}
-                className={`h-[3px] rounded-full transition-all duration-300 cursor-pointer ${
-                  i === currentIndex ? 'w-6 bg-accent-blue shadow-[0_0_6px_rgba(2,132,199,0.4)]' : 'w-2 bg-slate-300 hover:bg-slate-400'
-                }`}
-              />
-            ))}
-          </div>
-
-          {/* Interactive Collapsible Features/Workings Dashboard for Active Slide */}
-          <div className="space-y-2 mt-2 select-none">
-            
-            {/* Features Bar */}
-            <div className="space-y-1">
-              <div 
-                onClick={() => setShowFeatures(!showFeatures)} 
-                className="p-2.5 bg-slate-200/60 hover:bg-slate-200/90 border border-slate-200/80 rounded-lg cursor-pointer flex justify-between items-center transition-colors"
-              >
-                <span className="text-text-light text-[10px] font-bold font-mono tracking-wider uppercase flex items-center gap-2">
-                  <CheckCircle size={12} className="text-accent-blue" />
-                  <span>🛠️ Core Features ({activeProject.features.length})</span>
-                </span>
-                <span className="text-accent-blue text-[10px] font-mono">{showFeatures ? '▲ Collapse' : '▼ Expand'}</span>
-              </div>
-              <AnimatePresence>
-                {showFeatures && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: 'auto', opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    className="overflow-hidden"
-                  >
-                    <ul className="list-disc list-outside text-text-muted text-xs pl-5 space-y-1 py-1.5 text-left bg-white/50 rounded-lg p-3 border border-slate-200/50 font-sans">
-                      {activeProject.features.map((f, i) => <li key={i}>{f}</li>)}
-                    </ul>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-
-            {/* Workings Bar */}
-            <div className="space-y-1">
-              <div 
-                onClick={() => setShowWorkings(!showWorkings)} 
-                className="p-2.5 bg-slate-200/60 hover:bg-slate-200/90 border border-slate-200/80 rounded-lg cursor-pointer flex justify-between items-center transition-colors"
-              >
-                <span className="text-text-light text-[10px] font-bold font-mono tracking-wider uppercase flex items-center gap-2">
-                  <Settings size={12} className="text-accent-blue" />
-                  <span>⚡ Tech Workflow &amp; Architecture</span>
-                </span>
-                <span className="text-accent-blue text-[10px] font-mono">{showWorkings ? '▲ Collapse' : '▼ Expand'}</span>
-              </div>
-              <AnimatePresence>
-                {showWorkings && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: 'auto', opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    className="overflow-hidden"
-                  >
-                    <p className="text-text-muted text-[11px] leading-relaxed bg-white/50 p-3.5 rounded-lg border border-slate-200/50 font-mono text-left py-2.5">
-                      {activeProject.working}
+                    <p className="text-text-muted text-sm md:text-base leading-relaxed font-sans pl-2 border-l-2 border-accent-blue/40">
+                      {selectedProject.caseStudy[activeTab].text}
                     </p>
                   </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-            
-          </div>
+                </AnimatePresence>
+              </div>
 
-          {/* Links Footer */}
-          <div className="flex justify-end pt-2 border-t border-slate-200/50 mt-2">
-            <a
-              href={activeProject.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-[10px] border border-slate-200 transition-colors"
-            >
-              <Github size={12} />
-              <span>Codebase</span>
-            </a>
-          </div>
+              {/* Footer Links */}
+              <div className="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-slate-800">
+                {/* Tech Pills */}
+                <div className="flex flex-wrap gap-1.5">
+                  {selectedProject.tech.map((t) => (
+                    <span key={t} className="text-[10px] px-2 py-0.5 rounded bg-slate-900 border border-slate-800 text-text-muted font-mono">{t}</span>
+                  ))}
+                </div>
 
-        </div>
-      </div>
+                {/* Git/Live Links */}
+                <div className="flex items-center gap-3">
+                  <a 
+                    href={selectedProject.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-md border border-slate-800 hover:border-accent-blue text-text-light hover:text-accent-blue bg-slate-900/40 text-xs font-semibold font-mono transition-all duration-300"
+                  >
+                    <Github size={12} />
+                    <span>GITHUB REPO</span>
+                  </a>
+                  {selectedProject.live && (
+                    <a 
+                      href={selectedProject.live}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-md bg-accent-blue hover:bg-accent-blue-hover text-white text-xs font-semibold font-mono transition-all duration-300"
+                    >
+                      <ExternalLink size={12} />
+                      <span>LIVE PREVIEW</span>
+                    </a>
+                  )}
+                </div>
+              </div>
+
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
     </section>
   );
 }

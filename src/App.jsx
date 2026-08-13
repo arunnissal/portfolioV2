@@ -6,9 +6,12 @@ import About from './components/About';
 import Experience from './components/Experience';
 import Capabilities from './components/Capabilities';
 import Projects from './components/Projects';
+import Achievements from './components/Achievements';
+import TerminalWidget from './components/TerminalWidget';
 import Contact from './components/Contact';
 import Scene3D from './components/Scene3D';
 import Preloader from './components/Preloader';
+import CustomCursor from './components/CustomCursor';
 
 export default function App() {
   const containerRef = useRef(null);
@@ -34,6 +37,8 @@ export default function App() {
       ref={containerRef}
       className="relative bg-transparent text-text-light selection:bg-accent-blue/30 selection:text-white transition-colors duration-300 min-h-screen"
     >
+      <CustomCursor />
+      
       <AnimatePresence mode="wait">
         {loading ? (
           <motion.div key="preloader" exit={{ opacity: 0, transition: { duration: 0.5 } }}>
@@ -53,17 +58,17 @@ export default function App() {
             <div className="spotlight-overlay" />
 
             {/* Progress rail */}
-            <div className="fixed top-0 left-0 w-full h-[3px] bg-slate-200/50 z-[60] pointer-events-none">
+            <div className="fixed top-0 left-0 w-full h-[3px] bg-slate-255/5 z-[60] pointer-events-none">
               <motion.div 
                 style={{ scaleX: scrollYProgress, transformOrigin: '0%' }}
-                className="h-full bg-gradient-to-r from-accent-blue via-accent-blue-hover to-accent-gold shadow-[0_0_8px_rgba(2,132,199,0.4)]"
+                className="h-full bg-gradient-to-r from-accent-blue via-accent-gold to-accent-purple shadow-[0_0_8px_rgba(6,182,212,0.4)]"
               />
             </div>
 
             {/* Navigation Bar */}
             <Navbar />
 
-            {/* Vertical Section Slides (6 sections) */}
+            {/* Vertical Section Slides (8 sections) */}
             <main className="w-full">
               {/* Section 1: Home */}
               <section id="home" className="w-screen h-screen flex-shrink-0 flex items-center justify-center overflow-hidden snap-start relative">
@@ -75,7 +80,7 @@ export default function App() {
                 <About />
               </section>
 
-              {/* Section 3: Experience / Work & Awards */}
+              {/* Section 3: Experience / Work & Timeline */}
               <section id="experience" className="w-screen h-screen flex-shrink-0 flex items-center justify-center overflow-hidden snap-start relative">
                 <Experience />
               </section>
@@ -90,7 +95,17 @@ export default function App() {
                 <Projects />
               </section>
 
-              {/* Section 6: Contact Comms */}
+              {/* Section 6: Achievements Wall */}
+              <section id="achievements" className="w-screen h-screen flex-shrink-0 flex items-center justify-center overflow-hidden snap-start relative">
+                <Achievements />
+              </section>
+
+              {/* Section 7: Code Terminal Interface */}
+              <section id="terminal" className="w-screen h-screen flex-shrink-0 flex items-center justify-center overflow-hidden snap-start relative">
+                <TerminalWidget />
+              </section>
+
+              {/* Section 8: Contact Comms */}
               <section id="contact" className="w-screen h-screen flex-shrink-0 flex items-center justify-center overflow-hidden snap-start relative">
                 <Contact />
               </section>

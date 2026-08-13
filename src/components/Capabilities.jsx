@@ -1,203 +1,174 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Terminal, Database, Cpu, BookOpen } from 'lucide-react';
+import React, { useState, useRef } from 'react';
+import { Canvas, useFrame } from '@react-three/fiber';
+import { Text, Line } from '@react-three/drei';
+import { Cpu, ChevronRight, Layers, Target, Compass } from 'lucide-react';
 import useTilt from '../hooks/useTilt';
 
+function FloatingNode({ position, label, color, description, projects, onHover, activeNode }) {
+  const meshRef = useRef();
+  const [hovered, setHovered] = useState(false);
+
+  // Slow random orbital floating motion
+  useFrame((state) => {
+    if (!meshRef.current) return;
+    const t = state.clock.getElapsedTime();
+    const offset = label.charCodeAt(0) * 0.1; // unique seed offset per node
+    meshRef.current.position.y = position[1] + Math.sin(t * 0.8 + offset) * 0.08;
+    meshRef.current.position.x = position[0] + Math.cos(t * 0.6 + offset) * 0.05;
+  });
+
+  const isActive = activeNode === label;
+
+  return (
+    <group ref={meshRef}>
+      {/* Node Sphere */}
+      <mesh
+        onPointerOver={(e) => {
+          e.stopPropagation();
+          setHovered(true);
+          onHover({ label, description, projects });
+        }}
+        onPointerOut={() => {
+          setHovered(false);
+        }}
+        position={[0, 0, 0]}
+      >
+        <sphereGeometry args={[isActive ? 0.16 : 0.12, 16, 16]} />
+        <meshBasicMaterial 
+          color={hovered || isActive ? 'var(--color-accent-gold)' : color} 
+          toneMapped={false}
+        />
+      </mesh>
+
+      {/* Connection Line back to center (0,0,0) */}
+      <Line
+        points={[[0, 0, 0], [-position[0], -position[1], -position[2]]]}
+        color={hovered || isActive ? 'var(--color-accent-gold)' : 'rgba(255,255,255,0.06)'}
+        lineWidth={1.2}
+      />
+
+      {/* Label Text floating above sphere */}
+      <Text
+        position={[0, 0.22, 0]}
+        fontSize={0.09}
+        color={hovered || isActive ? '#ffffff' : '#94a3b8'}
+        font="https://fonts.gstatic.com/s/spacegrotesk/v15/V8mQoQDjQSkFJVnZa3glus919A.woff"
+        anchorX="center"
+        anchorY="middle"
+      >
+        {label}
+      </Text>
+    </group>
+  );
+}
+
 export default function Capabilities() {
-  const [activeDsaTopic, setActiveDsaTopic] = useState(null);
-  const [activeCourseNode, setActiveCourseNode] = useState(null);
+  const panelTilt = useTilt({ max: 5, scale: 1.01 });
 
-  const dsaTilt = useTilt({ max: 5, scale: 1.01 });
-  const nodeTilt = useTilt({ max: 5, scale: 1.01 });
+  // Hovered tech focus state
+  const [activeTech, setActiveTech] = useState({
+    label: 'Django REST',
+    description: 'Constructed REST APIs for JeevanSetu AI, Seminar Hall Booking, and UrbanEye platforms.',
+    projects: ['JeevanSetu AI', 'Seminar Hall Booking', 'UrbanEye']
+  });
 
-  const skillGroups = [
-    {
-      title: 'Languages & Core',
-      icon: <Terminal size={14} className="text-accent-blue" />,
-      skills: ['Python', 'Java', 'JavaScript', 'HTML5', 'CSS3'],
-    },
-    {
-      title: 'Web Frameworks',
-      icon: <Database size={14} className="text-accent-blue" />,
-      skills: ['Django', 'Django REST Framework', 'React', 'Vite', 'React Native', 'Expo', 'Spring Boot'],
-    },
-    {
-      title: 'Databases & Cloud',
-      icon: <Database size={14} className="text-accent-teal" />,
-      skills: ['PostgreSQL', 'Neon PostgreSQL', 'SQLite', 'Vercel', 'Render', 'Cloudinary'],
-    },
-    {
-      title: 'AI & Tools',
-      icon: <Cpu size={14} className="text-accent-blue-hover" />,
-      skills: ['Artificial Intelligence', 'Machine Learning', 'Deep Learning', 'LLMs', 'Sarvam AI', 'Git', 'GitHub'],
-    }
-  ];
-
-  const dsaDetails = [
-    {
-      topic: 'HashTables (Map & Set)',
-      summary: 'Strong grasp of key hashing patterns and hash-based searches.',
-      details: 'Implemented LeetCode checks using HashMap (put, get, containsKey, remove, size) and HashSet (add, contains, remove, size) to reduce search runtimes from O(N²) to O(N).'
-    },
-    {
-      topic: 'Linked Lists',
-      summary: 'Experienced with pointer manip, cycle locks, and reversions.',
-      details: 'Solved LeetCode list problems (reversing lists, cycle detection via slow/fast pointers, rotates, duplicate filters, and LRU Cache structures).'
-    },
-    {
-      topic: 'Trees & Graphs',
-      summary: 'Familiar with tree layouts and graph traversals.',
-      details: 'Traversed BFS and DFS, reviewed binary tree properties, tree height formulas, and graph complexity analyses for MCQs.'
-    }
-  ];
-
-  const courseNodes = [
-    { id: 'py', title: 'Python & DRF', desc: 'Learned Django REST Framework, MVC architectures, CRUD views, file routing via Cloudinary, and role-based JWT authentications.' },
-    { id: 'java', title: 'Java & DSA', desc: 'Practiced HashMap/HashSet operations, fast/slow pointer algorithms, tree traversals (BFS, DFS), and solving LeetCode problems.' },
-    { id: 'db', title: 'DB Architecture', desc: 'Studied PostgreSQL and SQLite schema, designing database locks to avoid overlapping double-bookings, and geocoding coordinates.' },
-    { id: 'cloud', title: 'Cloud & System', desc: 'Explored environment config controls, deploying APIs to Render, hosting web interfaces on Vercel, and Cloud Computing models.' }
+  const techNodes = [
+    { label: 'Django', position: [-1.4, 0.7, 0], color: '#ca8a04', description: 'Primary backend REST framework for DB schemas and authorization logic.', projects: ['JeevanSetu AI', 'Seminar Hall Booking', 'UrbanEye', 'Nexus AI'] },
+    { label: 'PostgreSQL', position: [-1.2, -0.7, 0], color: '#ca8a04', description: 'Primary relational DB, optimizing query structures and triggers.', projects: ['JeevanSetu AI', 'Seminar Booking', 'UrbanEye'] },
+    { label: 'React Native', position: [1.3, 0.7, 0], color: '#06b6d4', description: 'Used to build the mobile client interface for JeevanSetu AI.', projects: ['JeevanSetu AI'] },
+    { label: 'React (Vite)', position: [1.4, -0.6, 0], color: '#06b6d4', description: 'Used to write responsive web dashboards with glassmorphism.', projects: ['Seminar Hall Booking', 'UrbanEye', 'Nexus AI'] },
+    { label: 'Spring Boot', position: [-0.6, -1.2, 0], color: '#ca8a04', description: 'Used as an alternative robust Java backend for Civic reporting.', projects: ['UrbanEye'] },
+    { label: 'Computer Vision', position: [0.6, 1.2, 0], color: '#8b5cf6', description: 'Integrated OpenCV flows for stadium seating and automation.', projects: ['Nexus AI'] },
+    { label: 'Sarvam AI', position: [-0.6, 1.2, 0], color: '#8b5cf6', description: 'Integrated regional LLM endpoints for translation tasks.', projects: ['JeevanSetu AI'] },
   ];
 
   return (
     <section className="py-12 px-6 relative w-screen h-screen flex items-center justify-center overflow-hidden">
-      <div className="max-w-6xl mx-auto z-10 w-full relative grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch max-h-[85vh] overflow-y-auto lg:overflow-visible scrollbar-none">
+      <div className="max-w-6xl mx-auto z-10 w-full relative grid grid-cols-1 lg:grid-cols-12 gap-8 items-center max-h-[85vh] overflow-y-auto lg:overflow-visible scrollbar-none">
         
-        {/* Left Column: Tech Stack & DSA Milestones */}
-        <div className="lg:col-span-6 space-y-4 flex flex-col justify-between max-h-[80vh] overflow-y-auto scrollbar-none pr-1 text-left">
-          <div className="space-y-4">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-accent-blue/30 bg-accent-blue/5 text-xs font-semibold text-accent-blue uppercase tracking-wider w-fit">
-              <Cpu size={12} className="animate-pulse" />
-              <span>Capabilities</span>
-            </div>
-            <h3 className="text-3xl md:text-5xl font-extrabold text-text-light leading-tight uppercase tracking-tight">Core Competencies</h3>
+        {/* Left Column: Wavelength R3F Canvas - Visual 3D Nodes */}
+        <div className="lg:col-span-7 h-[280px] md:h-[450px] relative glass-card rounded-2xl border border-white/5 shadow-inner">
+          <div className="absolute top-3 left-4 text-[10px] font-mono text-accent-blue tracking-widest">[WEBGL.3D_TECH_ECOSYSTEM]</div>
+          <Canvas camera={{ position: [0, 0, 2.2], fov: 50 }} dpr={[1, 1.5]}>
+            <ambientLight intensity={0.5} />
+            <pointLight position={[5, 5, 5]} />
             
-            {/* Tech Stack categorizations */}
-            <div className="space-y-4 pt-2">
-              {skillGroups.map((group, index) => (
-                <div key={index} className="space-y-2">
-                  <div className="flex items-center gap-1.5 text-text-light font-bold text-xs md:text-sm font-mono uppercase tracking-wider">
-                    {group.icon}
-                    <span>{group.title}</span>
-                  </div>
-                  <div className="flex flex-wrap gap-1.5">
-                    {group.skills.map((skill) => (
-                      <span
-                        key={skill}
-                        className="text-xs px-2.5 py-1 rounded bg-slate-200/70 border border-slate-300/35 text-text-light font-mono hover:border-accent-blue-hover/30 transition-colors"
-                      >
-                        {skill}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+            {/* Center Core Node */}
+            <mesh position={[0, 0, 0]}>
+              <sphereGeometry args={[0.2, 32, 32]} />
+              <meshBasicMaterial color="#06b6d4" toneMapped={false} />
+            </mesh>
+            <Text
+              position={[0, -0.32, 0]}
+              fontSize={0.1}
+              color="#06b6d4"
+              font="https://fonts.gstatic.com/s/spacegrotesk/v15/V8mQoQDjQSkFJVnZa3glus919A.woff"
+              anchorX="center"
+              anchorY="middle"
+            >
+              Software Engineer
+            </Text>
+
+            {/* Orbiting technology category nodes */}
+            {techNodes.map((node) => (
+              <FloatingNode
+                key={node.label}
+                position={node.position}
+                label={node.label}
+                color={node.color}
+                description={node.description}
+                projects={node.projects}
+                onHover={setActiveTech}
+                activeNode={activeTech.label}
+              />
+            ))}
+          </Canvas>
         </div>
 
-        {/* Right Column: DSA Dashboard & Interactive Learnings Node Matrix */}
-        <div className="lg:col-span-6 flex flex-col gap-4 max-h-[80vh] overflow-y-auto scrollbar-none justify-center">
-          
-          {/* DSA Panel with 3D Mouse Tilt */}
-          <div 
-            ref={dsaTilt.ref}
-            style={dsaTilt.style}
-            className="glass-card p-4 rounded-xl text-left border border-slate-200/50 shadow-sm"
-          >
-            <div className="flex items-center justify-between p-3 rounded-lg bg-slate-100/50 border border-slate-200/40 mb-3">
-              <div>
-                <h4 className="text-text-light text-sm font-bold font-mono">LeetCode Preparation</h4>
-                <p className="text-text-muted text-xs mt-0.5">Focusing on Array manipulation and algorithms</p>
-              </div>
-              <span className="text-xs font-mono px-2.5 py-1 rounded bg-accent-blue/15 border border-accent-blue/30 text-accent-blue font-bold">
-                200+ SOLVED
-              </span>
+        {/* Right Column: Node focus card & contextual details */}
+        <div className="lg:col-span-5 space-y-5 text-left">
+          <div className="space-y-3">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-accent-blue/30 bg-accent-blue/5 text-xs font-semibold text-accent-blue tracking-wider w-fit">
+              <Layers size={12} className="animate-pulse" />
+              <span>Skills Matrix</span>
             </div>
-
-            <div className="space-y-1.5">
-              {dsaDetails.map((item, idx) => {
-                const isOpened = activeDsaTopic === idx;
-                return (
-                  <div key={idx} className="border border-slate-200/50 rounded-lg overflow-hidden bg-white/40">
-                    <div 
-                      onClick={() => setActiveDsaTopic(isOpened ? null : idx)}
-                      className="p-2.5 flex justify-between items-center cursor-pointer hover:bg-slate-100/50 transition-colors"
-                    >
-                      <div>
-                        <h6 className="text-text-light text-xs md:text-sm font-bold font-mono">{item.topic}</h6>
-                        <p className="text-text-muted text-xs mt-0.5">{item.summary}</p>
-                      </div>
-                      <span className="text-accent-blue text-xs font-mono">{isOpened ? '▲ Close' : '▼ Details'}</span>
-                    </div>
-                    <AnimatePresence>
-                      {isOpened && (
-                        <motion.div
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: 'auto', opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          className="px-2.5 pb-2.5 pt-1 border-t border-slate-200/50 text-xs text-text-muted leading-relaxed font-mono overflow-hidden"
-                        >
-                          {item.details}
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                );
-              })}
-            </div>
+            <h3 className="text-3xl md:text-5xl font-black text-text-light leading-tight">3D Technical <span className="text-gradient">Ecosystem</span></h3>
+            <p className="text-text-muted text-sm md:text-base leading-relaxed font-sans">
+              Interact with the node grid on the left to read context on where these languages and backends were deployed in actual projects.
+            </p>
           </div>
 
-          {/* Interactive Coursework Node Matrix (Separate Box) with 3D Mouse Tilt */}
+          {/* Node detail display card with Glint */}
           <div 
-            ref={nodeTilt.ref}
-            style={nodeTilt.style}
-            className="glass-card p-4 rounded-xl text-left border border-slate-200/50 space-y-3 shadow-sm"
+            ref={panelTilt.ref}
+            style={panelTilt.style}
+            className="glass-card p-5 rounded-xl border border-white/5 space-y-4 shadow-xl group relative h-64 flex flex-col justify-between"
           >
-            <div>
-              <h5 className="text-xs font-bold text-text-light uppercase tracking-wider flex items-center gap-1.5">
-                <BookOpen size={14} className="text-accent-teal" />
-                <span>Interactive Coursework Node Matrix</span>
+            <div className="absolute inset-0 card-glare opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+            
+            <div className="space-y-2">
+              <h4 className="text-text-light text-lg md:text-xl font-bold font-mono tracking-tight flex items-center gap-2">
+                <Cpu size={18} className="text-accent-blue" />
+                <span>{activeTech.label}</span>
+              </h4>
+              <p className="text-text-muted text-xs md:text-sm leading-relaxed font-sans min-h-[50px]">{activeTech.description}</p>
+            </div>
+
+            <div className="space-y-2.5 pt-3 border-t border-slate-850">
+              <h5 className="text-[10px] font-bold text-accent-gold uppercase font-mono tracking-widest flex items-center gap-1">
+                <Target size={12} />
+                <span>Deploys In My Projects</span>
               </h5>
-              <p className="text-text-muted text-xs mt-0.5">Click a category node to display key concepts learned</p>
-            </div>
-
-            {/* Nodes Grid */}
-            <div className="grid grid-cols-2 gap-2">
-              {courseNodes.map((node) => {
-                const isNodeSelected = activeCourseNode === node.id;
-                return (
-                  <div
-                    key={node.id}
-                    onClick={() => setActiveCourseNode(isNodeSelected ? null : node.id)}
-                    className={`p-2.5 rounded-lg text-center cursor-pointer border text-xs md:text-sm font-mono transition-all duration-300 ${
-                      isNodeSelected 
-                        ? 'bg-accent-blue/15 border-accent-blue/40 text-text-light shadow-[0_0_8px_rgba(2,132,199,0.15)]'
-                        : 'bg-white/40 border-slate-200/50 text-text-muted hover:text-text-light hover:border-slate-300'
-                    }`}
-                  >
-                    {node.title}
+              <div className="flex flex-wrap gap-1.5 pl-0.5">
+                {activeTech.projects.map((p) => (
+                  <div key={p} className="flex items-center gap-1 text-xs text-text-light font-medium bg-slate-900 border border-slate-800 px-2.5 py-1 rounded-md shadow-sm">
+                    <ChevronRight size={10} className="text-accent-blue" />
+                    <span>{p}</span>
                   </div>
-                );
-              })}
-            </div>
-
-            {/* Details Console Box */}
-            <div className="min-h-[85px] p-3 rounded-lg bg-slate-100/50 border border-slate-200/50 font-mono text-xs md:text-sm leading-relaxed relative overflow-hidden">
-              <div className="absolute top-0 right-0 px-2 py-0.5 text-[8px] bg-slate-200/60 text-accent-blue border-l border-b border-slate-300/30">
-                [ACADEMIC_DECK]
+                ))}
               </div>
-              {activeCourseNode ? (
-                <p className="text-text-light text-left">
-                  {courseNodes.find(n => n.id === activeCourseNode)?.desc}
-                </p>
-              ) : (
-                <p className="text-text-muted text-center pt-3 font-mono">
-                  // Select a node to initiate data stream...
-                </p>
-              )}
             </div>
           </div>
-
         </div>
 
       </div>

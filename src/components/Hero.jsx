@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Download, ArrowUpRight, Cpu, Terminal as TermIcon } from 'lucide-react';
+import { Download, ArrowUpRight, Cpu, Terminal as TermIcon, Compass } from 'lucide-react';
 import { Github, Linkedin } from './BrandIcons';
 import ThreeDPhoto from './ThreeDPhoto';
 import useTilt from '../hooks/useTilt';
@@ -115,45 +115,53 @@ export default function Hero() {
           </motion.div>
 
           {/* Headline */}
-          <motion.h1 variants={itemVariants} className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tight text-text-light leading-none">
-            Hi, I'm <span className="text-gradient font-black">Arunnissal B</span>
+          <motion.h1 variants={itemVariants} className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-text-light leading-tight">
+            Building intelligent software experiences that <span className="text-gradient font-black">move from idea to production.</span>
           </motion.h1>
 
-          <motion.h2 variants={itemVariants} className="text-xl md:text-2xl font-bold text-text-muted font-mono flex items-center gap-2">
-            <TermIcon className="text-accent-blue" size={22} />
-            <span>&gt; Full Stack | Python Django Developer</span>
+          {/* Subtitle / Role Tag */}
+          <motion.h2 variants={itemVariants} className="text-lg md:text-xl font-bold text-accent-blue font-mono flex items-center gap-2">
+            <TermIcon className="text-accent-blue" size={20} />
+            <span>Software Engineer | AI Engineer | Full Stack Developer</span>
           </motion.h2>
 
+          {/* Supporting paragraph explaining full-stack, AI-powered and production-oriented apps */}
           <motion.p variants={itemVariants} className="text-text-muted max-w-xl text-sm md:text-base leading-relaxed font-sans">
-            Computer Science student at Dr. NGP IT specializing in backend system design, Django REST API structures, and PostgreSQL transactional databases. Focused on building production-grade software and AI modules.
+            I design and build full-stack web applications, AI-powered system integrations, and production-oriented digital products that turn complex goals into clean, scalable code architectures.
           </motion.p>
 
           {/* CTA Buttons & Social Icons inline to save vertical space */}
           <motion.div variants={itemVariants} className="flex flex-wrap items-center gap-4 pt-1">
             <a
-              href="/resume.pdf"
-              download="Arunnissal_B_Resume.pdf"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-md bg-accent-blue hover:bg-accent-blue-hover text-white text-sm font-semibold transition-all duration-300 shadow-md shadow-accent-blue/15 hover:shadow-accent-blue-hover/30 transform hover:-translate-y-0.5"
+              href="#about"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-md bg-accent-blue hover:bg-accent-blue-hover text-white text-sm font-semibold transition-all duration-300 shadow-md shadow-accent-blue/15 hover:shadow-accent-blue-hover/30 transform hover:-translate-y-0.5 cursor-pointer"
             >
-              <Download size={14} />
-              <span>Download Resume</span>
+              <Compass size={14} />
+              <span>Explore My Work</span>
             </a>
-            
+
             <a
               href="#projects"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-md border border-slate-200 hover:border-accent-blue text-text-light hover:text-accent-blue bg-white/40 hover:bg-accent-blue/5 text-sm font-semibold transition-all duration-300 transform hover:-translate-y-0.5"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-md border border-slate-700 hover:border-accent-blue text-text-light hover:text-accent-blue bg-white/5 hover:bg-accent-blue/5 text-sm font-semibold transition-all duration-300 transform hover:-translate-y-0.5 cursor-pointer"
             >
               <span>View Projects</span>
-              <ArrowUpRight size={14} className="text-text-muted group-hover:text-accent-blue" />
+              <ArrowUpRight size={14} />
+            </a>
+
+            <a
+              href="#contact"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-md border border-slate-700 hover:border-accent-gold text-text-light hover:text-accent-gold bg-white/5 hover:bg-accent-gold/5 text-sm font-semibold transition-all duration-300 transform hover:-translate-y-0.5 cursor-pointer"
+            >
+              <span>Contact Me</span>
             </a>
 
             {/* Inline Social Icons separator */}
-            <div className="flex items-center gap-3 pl-4 border-l border-slate-200 h-6">
+            <div className="flex items-center gap-3 pl-4 border-l border-slate-800 h-6">
               <a 
                 href="https://github.com/arunnissal" 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                className="p-1.5 rounded-full border border-slate-200 bg-white/40 hover:bg-accent-blue/10 hover:text-accent-blue transition-all duration-300 shadow-sm hover:shadow-accent-blue/10 cursor-pointer"
+                className="p-1.5 rounded-full border border-slate-800 bg-white/5 hover:bg-accent-blue/10 hover:text-accent-blue transition-all duration-300 shadow-sm hover:shadow-accent-blue/10 cursor-pointer"
                 title="GitHub"
               >
                 <Github size={14} />
@@ -162,7 +170,7 @@ export default function Hero() {
                 href="https://linkedin.com/in/arunnissal-b-3a8a33328" 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                className="p-1.5 rounded-full border border-slate-200 bg-white/40 hover:bg-accent-blue/10 hover:text-accent-blue transition-all duration-300 shadow-sm hover:shadow-accent-blue/10 cursor-pointer"
+                className="p-1.5 rounded-full border border-slate-800 bg-white/5 hover:bg-accent-blue/10 hover:text-accent-blue transition-all duration-300 shadow-sm hover:shadow-accent-blue/10 cursor-pointer"
                 title="LinkedIn"
               >
                 <Linkedin size={14} />
@@ -178,7 +186,7 @@ export default function Hero() {
             onClick={focusTerminalInput}
             className="w-full max-w-xl font-mono text-[11px] md:text-[12px] text-text-muted glass-card rounded-lg overflow-hidden shadow-md mt-1 select-none cursor-text"
           >
-            <div className="flex items-center justify-between px-3 py-2 bg-slate-100/50 border-b border-slate-200/55">
+            <div className="flex items-center justify-between px-3 py-2 bg-slate-900/50 border-b border-slate-850">
               <div className="flex gap-1.5">
                 <span className="w-2 h-2 rounded-full bg-accent-blue-hover/80 animate-pulse" />
                 <span className="w-2 h-2 rounded-full bg-accent-blue/60" />
@@ -193,7 +201,7 @@ export default function Hero() {
               {history.map((log, idx) => (
                 <div key={idx}>
                   {log.type === 'system' && (
-                    <span className="text-slate-400 font-bold">{log.text}</span>
+                    <span className="text-slate-500 font-bold">{log.text}</span>
                   )}
                   {log.type === 'input' && (
                     <div>
@@ -202,7 +210,7 @@ export default function Hero() {
                     </div>
                   )}
                   {log.type === 'output' && (
-                    <span className="text-slate-700 font-semibold">{log.text}</span>
+                    <span className="text-slate-400 font-semibold">{log.text}</span>
                   )}
                 </div>
               ))}
@@ -210,7 +218,7 @@ export default function Hero() {
             </div>
 
             {/* Input Form Prompt */}
-            <form onSubmit={handleCommand} className="flex border-t border-slate-200/55 bg-slate-100/20 px-3 py-2 items-center">
+            <form onSubmit={handleCommand} className="flex border-t border-slate-800 bg-slate-900/20 px-3 py-2 items-center">
               <span className="text-accent-blue font-bold mr-2">arunnissal@portfolio:~$</span>
               <input
                 ref={inputRef}
@@ -243,13 +251,25 @@ export default function Hero() {
           className="relative w-full h-full flex justify-end items-end overflow-visible pointer-events-auto"
         >
           {/* Faint ambient color backdrops */}
-          <div className="absolute w-72 h-[350px] rounded-full bg-accent-blue/5 blur-[50px] -z-10 right-0 bottom-0 animate-pulse animate-glow-pulse" />
-          <div className="absolute w-80 h-[400px] rounded-full bg-accent-blue-hover/5 blur-[60px] -z-10 right-0 bottom-0" style={{ animationDelay: '-2s' }} />
+          <div className="absolute w-72 h-[350px] rounded-full bg-accent-blue/5 blur-[50px] -z-10 right-0 bottom-0 animate-pulse" />
+          <div className="absolute w-80 h-[400px] rounded-full bg-accent-purple/5 blur-[60px] -z-10 right-0 bottom-0" style={{ animationDelay: '-2s' }} />
           
           {/* The cut-out portrait picture inside ThreeDPhoto */}
           <ThreeDPhoto isHovered={isHovered} />
         </div>
       </motion.div>
+
+      {/* Subtle floating scroll down indicator */}
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 opacity-60 pointer-events-none z-20">
+        <span className="text-[8px] font-mono tracking-widest text-text-muted">SCROLL TO EXPLORE</span>
+        <div className="w-[16px] h-[26px] rounded-full border border-text-muted/30 p-[3px] flex justify-center">
+          <motion.div 
+            animate={{ y: [0, 8, 0] }}
+            transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+            className="w-1.5 h-1.5 rounded-full bg-accent-blue"
+          />
+        </div>
+      </div>
     </section>
   );
 }

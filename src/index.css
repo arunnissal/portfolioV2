@@ -5,17 +5,17 @@
   --font-sans: 'Outfit', system-ui, -apple-system, sans-serif;
   --font-mono: 'Space Grotesk', ui-monospace, monospace;
   
-  /* Light Glassmorphism & Wealth-Tech Gold Theme */
-  --color-primary-dark: #f8fafc;      /* Platinum Off-White */
-  --color-secondary-dark: #f1f5f9;    /* Pure Slate-100 */
-  --color-slate-card: rgba(255, 255, 255, 0.45); /* Frosted White Glass */
-  --color-accent-blue: #0284c7;       /* Tech Sky Blue */
-  --color-accent-blue-hover: #b45309; /* Rich Amber Gold */
-  --color-accent-teal: #0d9488;       /* Tech Teal */
-  --color-accent-gold: #ca8a04;       /* Wealth Gold */
-  --color-accent-purple: #8b5cf6;     /* Purple Spark */
-  --color-text-light: #0f172a;        /* Dark Slate-900 for Light Theme */
-  --color-text-muted: #475569;        /* Slate-600 for descriptions */
+  /* Dark Futuristic & Tech-Gold theme variables */
+  --color-primary-dark: #050508;      /* Deep Space Black */
+  --color-secondary-dark: #0e0f14;    /* Slate Black */
+  --color-slate-card: rgba(14, 15, 22, 0.55); /* Frosted Dark Space Glass */
+  --color-accent-blue: #06b6d4;       /* Tech Cyan */
+  --color-accent-blue-hover: #0284c7; /* Sky Blue */
+  --color-accent-teal: #0d9488;       /* Electric Teal */
+  --color-accent-gold: #ca8a04;       /* Rich Gold */
+  --color-accent-purple: #8b5cf6;     /* Deep Violet */
+  --color-text-light: #f8fafc;        /* Faint White (Main Typography) */
+  --color-text-muted: #94a3b8;        /* Muted slate-400 */
 }
 
 @theme {
@@ -49,7 +49,7 @@
     font-family: var(--font-sans);
   }
 
-  /* Custom premium scrollbar for Light Theme */
+  /* Custom premium scrollbar for Dark Theme */
   ::-webkit-scrollbar {
     width: 6px;
   }
@@ -57,7 +57,7 @@
     background: var(--color-primary-dark);
   }
   ::-webkit-scrollbar-thumb {
-    background: #cbd5e1;
+    background: #1e293b;
     border-radius: 9999px;
   }
   ::-webkit-scrollbar-thumb:hover {
@@ -71,19 +71,19 @@
   inset: 0;
   width: 100vw;
   height: 100vh;
-  background: radial-gradient(800px circle at var(--mouse-x, 0px) var(--mouse-y, 0px), rgba(2, 132, 199, 0.03), transparent 80%);
+  background: radial-gradient(800px circle at var(--mouse-x, 0px) var(--mouse-y, 0px), rgba(6, 182, 212, 0.035), transparent 80%);
   pointer-events: none;
   z-index: 5;
 }
 
-/* Glassmorphic frosted cards with light gold glows */
+/* Glassmorphic frosted dark cards with dynamic glare */
 .glass-card {
   background: var(--color-slate-card);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.55);
-  box-shadow: 0 8px 32px 0 rgba(15, 23, 42, 0.04);
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
   overflow: hidden;
 }
@@ -92,7 +92,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(350px circle at var(--card-mouse-x, 0px) var(--card-mouse-y, 0px), rgba(2, 132, 199, 0.08), transparent 80%);
+  background: radial-gradient(350px circle at var(--card-mouse-x, 0px) var(--card-mouse-y, 0px), rgba(6, 182, 212, 0.09), transparent 80%);
   opacity: 0;
   transition: opacity 0.4s ease;
   pointer-events: none;
@@ -104,28 +104,28 @@
 }
 
 .glass-card:hover {
-  border-color: rgba(2, 132, 199, 0.25);
-  box-shadow: 0 12px 40px 0 rgba(2, 132, 199, 0.05), 0 0 15px 0 rgba(202, 138, 4, 0.05);
+  border-color: rgba(6, 182, 212, 0.2);
+  box-shadow: 0 12px 40px 0 rgba(6, 182, 212, 0.1), 0 0 15px 0 rgba(202, 138, 4, 0.05);
   transform: translateY(-3px);
 }
 
 /* Navigation frosted glass bar */
 .glassmorphism-nav {
-  background: rgba(248, 250, 252, 0.8);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid rgba(15, 23, 42, 0.05);
+  background: rgba(8, 8, 12, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
 }
 
-/* Animations for scanner & orbits */
+/* Animations */
 @keyframes pulseGlow {
   0%, 100% {
     opacity: 0.3;
     transform: scale(1);
   }
   50% {
-    opacity: 0.6;
-    transform: scale(1.06);
+    opacity: 0.5;
+    transform: scale(1.05);
   }
 }
 
@@ -173,32 +173,32 @@
   animation: orbit2 30s linear infinite;
 }
 
-/* Custom Text Gradients - Wealth Tech (Blue to Gold) */
+/* Custom Text Gradients - Tech (Cyan to Gold/Purple) */
 .text-gradient {
-  background: linear-gradient(135deg, #0284c7 0%, #ca8a04 50%, #b45309 100%);
+  background: linear-gradient(135deg, #06b6d4 0%, #ca8a04 50%, #8b5cf6 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .text-gradient-pink {
-  background: linear-gradient(135deg, #ca8a04 0%, #0284c7 100%);
+  background: linear-gradient(135deg, #ca8a04 0%, #06b6d4 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 /* Card Hover Glare effect overlay */
 .card-glare {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, transparent 60%);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, transparent 60%);
 }
 
 /* Shifting 3D liquid mesh background gradient color */
 .bg-gradient-3d {
   background: 
-    radial-gradient(at 10% 20%, rgba(2, 132, 199, 0.22) 0px, transparent 55%),
-    radial-gradient(at 90% 10%, rgba(202, 138, 4, 0.22) 0px, transparent 55%),
-    radial-gradient(at 50% 80%, rgba(139, 92, 246, 0.18) 0px, transparent 55%),
-    radial-gradient(at 80% 90%, rgba(13, 148, 136, 0.18) 0px, transparent 55%),
-    #f8fafc;
+    radial-gradient(at 10% 20%, rgba(6, 182, 212, 0.12) 0px, transparent 55%),
+    radial-gradient(at 90% 10%, rgba(202, 138, 4, 0.12) 0px, transparent 55%),
+    radial-gradient(at 50% 80%, rgba(139, 92, 246, 0.1) 0px, transparent 55%),
+    radial-gradient(at 80% 90%, rgba(13, 148, 136, 0.08) 0px, transparent 55%),
+    #050508;
   background-size: 140% 140%;
   animation: waveGradients 25s ease infinite;
 }

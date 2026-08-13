@@ -13,6 +13,8 @@ export default function Navbar() {
     { name: 'Experience', href: '#experience' },
     { name: 'Capabilities', href: '#capabilities' },
     { name: 'Projects', href: '#projects' },
+    { name: 'Credentials', href: '#achievements' },
+    { name: 'Architectures', href: '#terminal' },
     { name: 'Contact', href: '#contact' },
   ];
 
@@ -20,23 +22,13 @@ export default function Navbar() {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
 
-      // Scroll Spy tracking based on vertical section bounds (6 sections of 100vh)
+      // Math scroll spy indexing for 8 vertical full-screen snaps
       const scrollY = window.scrollY;
       const height = window.innerHeight;
-
-      if (scrollY < height * 0.5) {
-        setActiveSection('home');
-      } else if (scrollY >= height * 0.5 && scrollY < height * 1.5) {
-        setActiveSection('about');
-      } else if (scrollY >= height * 1.5 && scrollY < height * 2.5) {
-        setActiveSection('experience');
-      } else if (scrollY >= height * 2.5 && scrollY < height * 3.5) {
-        setActiveSection('capabilities');
-      } else if (scrollY >= height * 3.5 && scrollY < height * 4.5) {
-        setActiveSection('projects');
-      } else {
-        setActiveSection('contact');
-      }
+      
+      const sections = ['home', 'about', 'experience', 'capabilities', 'projects', 'achievements', 'terminal', 'contact'];
+      const index = Math.min(Math.max(Math.floor((scrollY + height * 0.4) / height), 0), sections.length - 1);
+      setActiveSection(sections[index]);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -54,14 +46,14 @@ export default function Navbar() {
         </a>
 
         {/* Desktop Navigation Links */}
-        <div className="hidden md:flex items-center gap-6">
+        <div className="hidden md:flex items-center gap-4">
           {navLinks.map((link) => {
             const isActive = activeSection === link.href.substring(1);
             return (
               <a
                 key={link.name}
                 href={link.href}
-                className={`px-3 py-2 rounded-md text-xs font-semibold font-mono uppercase tracking-wider transition-all duration-300 relative cursor-pointer ${
+                className={`px-3 py-2 rounded-md text-[10px] font-semibold font-mono uppercase tracking-wider transition-all duration-300 relative cursor-pointer ${
                   isActive ? 'text-accent-blue' : 'text-text-muted hover:text-text-light'
                 }`}
               >
@@ -78,52 +70,59 @@ export default function Navbar() {
           })}
 
           <a
-            href="#contact"
-            className="px-4 py-2 text-sm font-semibold rounded-md border border-accent-blue/30 text-text-light bg-accent-blue/10 hover:bg-accent-blue hover:text-white hover:border-accent-blue transition-all duration-300 shadow-md hover:shadow-accent-blue/20"
+            href="/resume.pdf"
+            download="Arunnissal_B_Resume.pdf"
+            className="ml-2 px-4 py-2 text-[10px] font-bold font-mono tracking-wider text-white bg-accent-blue hover:bg-accent-blue-hover rounded transition-colors duration-300"
           >
-            Hire Me
+            RESUME
           </a>
         </div>
 
-        {/* Mobile menu toggle */}
-        <div className="flex md:hidden items-center">
+        {/* Mobile Menu Button */}
+        <div className="md:hidden">
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="text-text-light hover:text-accent-blue focus:outline-none transition-colors"
-            aria-label="Toggle navigation menu"
+            className="p-2 text-text-muted hover:text-text-light transition-colors"
           >
             {isOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Navigation Drawer */}
+      {/* Mobile Drawer menu */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.2 }}
-            className="md:hidden absolute top-full left-0 w-full bg-white/95 border-b border-slate-200/50 py-6 px-8 flex flex-col gap-6 shadow-xl"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            className="md:hidden border-t border-slate-850 bg-primary-dark"
           >
-            {navLinks.map((link) => (
+            <div className="px-6 py-4 flex flex-col gap-3 text-left">
+              {navLinks.map((link) => {
+                const isActive = activeSection === link.href.substring(1);
+                return (
+                  <a
+                    key={link.name}
+                    href={link.href}
+                    onClick={() => setIsOpen(false)}
+                    className={`py-2 text-sm font-semibold font-mono uppercase tracking-wider transition-all duration-300 ${
+                      isActive ? 'text-accent-blue pl-2 border-l-2 border-accent-blue' : 'text-text-muted hover:text-text-light'
+                    }`}
+                  >
+                    {link.name}
+                  </a>
+                );
+              })}
               <a
-                key={link.name}
-                href={link.href}
+                href="/resume.pdf"
+                download="Arunnissal_B_Resume.pdf"
                 onClick={() => setIsOpen(false)}
-                className="text-text-light hover:text-accent-blue text-lg font-medium transition-colors"
+                className="py-2.5 text-center text-xs font-bold font-mono tracking-wider text-white bg-accent-blue hover:bg-accent-blue-hover rounded transition-colors"
               >
-                {link.name}
+                DOWNLOAD RESUME
               </a>
-            ))}
-            <a
-              href="#contact"
-              onClick={() => setIsOpen(false)}
-              className="px-4 py-2 text-center text-sm font-semibold rounded-md border border-accent-blue/30 text-text-light bg-accent-blue/10 hover:bg-accent-blue hover:text-white transition-all duration-300"
-            >
-              Hire Me
-            </a>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
