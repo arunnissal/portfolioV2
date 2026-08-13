@@ -2,40 +2,49 @@ import React, { useRef, useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Points, PointMaterial } from '@react-three/drei';
 
-function QuantumBubbles({ color, count, speedFactor, sizeVal }) {
-  const ref = useRef();
-  
-  // Generate random coordinate bounds for floating 3D perspective particles
-  const [points] = useState(() => {
+function ParticleNeuralNetwork({ count = 1200 }) {
+  const pointsRef = useRef();
+
+  // Generate coordinates distributed in a 3D breathing sphere shell
+  const [positions] = useState(() => {
     const arr = new Float32Array(count * 3);
     for (let i = 0; i < count; i++) {
-      arr[i * 3] = (Math.random() - 0.5) * 8;
-      arr[i * 3 + 1] = (Math.random() - 0.5) * 8;
-      arr[i * 3 + 2] = (Math.random() - 0.5) * 3;
+      const u = Math.random();
+      const v = Math.random();
+      const theta = u * 2.0 * Math.PI;
+      const phi = Math.acos(2.0 * v - 1.0);
+      
+      // Radius of the sphere shell
+      const r = 2.4 + Math.random() * 0.4;
+      
+      arr[i * 3] = r * Math.sin(phi) * Math.cos(theta);
+      arr[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
+      arr[i * 3 + 2] = r * Math.cos(phi);
     }
     return arr;
   });
 
-  useFrame((state, delta) => {
-    if (!ref.current) return;
-    
-    // Smooth slow orbits simulating float particles in 3D space
-    ref.current.rotation.x += delta * 0.015 * speedFactor;
-    ref.current.rotation.y += delta * 0.02 * speedFactor;
-    
-    // Parallax mouse movements
-    const targetX = state.mouse.x * 0.15;
-    const targetY = state.mouse.y * 0.15;
-    ref.current.position.x += (targetX - ref.current.position.x) * 0.02;
-    ref.current.position.y += (targetY - ref.current.position.y) * 0.02;
+  useFrame((state) => {
+    if (!pointsRef.current) return;
+    const time = state.clock.getElapsedTime();
+
+    // Revolve the particle shell slowly
+    pointsRef.current.rotation.y = time * 0.04;
+    pointsRef.current.rotation.x = time * 0.02;
+
+    // Apply mouse parallax bending
+    const targetX = state.mouse.x * 0.25;
+    const targetY = state.mouse.y * 0.25;
+    pointsRef.current.position.x += (targetX - pointsRef.current.position.x) * 0.025;
+    pointsRef.current.position.y += (targetY - pointsRef.current.position.y) * 0.025;
   });
 
   return (
-    <Points ref={ref} positions={points} stride={3} frustumCulled={false}>
+    <Points ref={pointsRef} positions={positions} stride={3} frustumCulled={false}>
       <PointMaterial
         transparent
-        color={color}
-        size={sizeVal}
+        color="#0284c7"
+        size={0.035}
         sizeAttenuation={true}
         depthWrite={false}
         opacity={0.65}
@@ -44,21 +53,59 @@ function QuantumBubbles({ color, count, speedFactor, sizeVal }) {
   );
 }
 
-function GridFloor() {
-  const ref = useRef();
+function ParticleWaveFloor({ count = 1000 }) {
+  const pointsRef = useRef();
+
+  // Generate a flat 2D grid coordinates mapping in 3D space
+  const [positions] = useState(() => {
+    const arr = new Float32Array(count * 3);
+    const cols = 40;
+    const rows = 25;
+    const spacing = 0.25;
+
+    for (let i = 0; i < count; i++) {
+      const r = Math.floor(i / cols);
+      const c = i % cols;
+
+      arr[i * 3] = (c - cols / 2) * spacing;
+      arr[i * 3 + 1] = -1.6; // Base floor height
+      arr[i * 3 + 2] = (r - rows / 2) * spacing;
+    }
+    return arr;
+  });
+
   useFrame((state) => {
-    if (!ref.current) return;
-    // Slow dynamic waving rotation
-    ref.current.rotation.z = Math.sin(state.clock.getElapsedTime() * 0.1) * 0.03;
+    if (!pointsRef.current) return;
+    const time = state.clock.getElapsedTime();
+    const pos = pointsRef.current.geometry.attributes.position.array;
+
+    // Mathematically animate the particle height (y) to create a flowing 3D wave landscape
+    for (let i = 0; i < count; i++) {
+      const x = pos[i * 3];
+      const z = pos[i * 3 + 2];
+      
+      // Calculate dynamic wave heights using sine/cosine combinations
+      pos[i * 3 + 1] = -1.6 + Math.sin(x * 0.5 + time) * Math.cos(z * 0.5 + time * 0.8) * 0.2;
+    }
+
+    pointsRef.current.geometry.attributes.position.needsUpdate = true;
+
+    // React to mouse movements for subtle perspective shifts
+    const targetZ = state.mouse.y * 0.1;
+    pointsRef.current.rotation.x = (Math.PI / 2.15) + targetZ;
   });
 
   return (
-    <gridHelper
-      ref={ref}
-      args={[50, 50, '#38bdf8', '#cbd5e1']}
-      position={[0, -1.6, 0]}
-      rotation={[Math.PI / 2.15, 0, 0]}
-    />
+    <Points ref={pointsRef} positions={positions} stride={3} frustumCulled={false}>
+      <PointMaterial
+        transparent
+        color="#ca8a04"
+        size={0.03}
+        sizeAttenuation={true}
+        depthWrite={false}
+        opacity={0.7}
+      />
+    </Points>
   );
 }
 
@@ -66,17 +113,11 @@ export default function Scene3D() {
   return (
     <div className="fixed inset-0 -z-10 bg-[#f8fafc] bg-gradient-3d w-full h-full pointer-events-none overflow-hidden transition-colors duration-300">
       <Canvas camera={{ position: [0, 0, 2], fov: 45 }} dpr={[1, 1.5]} performance={{ min: 0.5 }}>
-        {/* Glowing holographic grid floor */}
-        <GridFloor />
-        
-        {/* Tech Cyan Bubbles - Larger 3D perspective */}
-        <QuantumBubbles color="#06b6d4" count={120} speedFactor={0.8} sizeVal={0.05} />
-        
-        {/* Wealth Amber Gold Bubbles */}
-        <QuantumBubbles color="#ca8a04" count={90} speedFactor={-0.6} sizeVal={0.06} />
+        {/* Waving 3D Particle light floor */}
+        <ParticleWaveFloor />
 
-        {/* Purple Accent Bubbles */}
-        <QuantumBubbles color="#8b5cf6" count={70} speedFactor={0.5} sizeVal={0.07} />
+        {/* Breathing 3D Particle neural network shell */}
+        <ParticleNeuralNetwork />
       </Canvas>
     </div>
   );

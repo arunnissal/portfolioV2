@@ -125,7 +125,7 @@ export default function Hero() {
           </motion.h2>
 
           <motion.p variants={itemVariants} className="text-text-muted max-w-xl text-sm md:text-base leading-relaxed font-sans">
-            Computer Science student passionate about building practical, user-focused software solutions. Specializing in backend databases, API development, and responsive interfaces.
+            Computer Science student at Dr. NGP IT specializing in backend system design, Django REST API structures, and PostgreSQL transactional databases. Focused on building production-grade software and AI modules.
           </motion.p>
 
           {/* CTA Buttons & Social Icons inline to save vertical space */}
