@@ -63,7 +63,7 @@ function GridFloor() {
 
 export default function Scene3D() {
   return (
-    <div className="fixed inset-0 -z-10 bg-[#f8fafc] w-full h-full pointer-events-none overflow-hidden transition-colors duration-300">
+    <div className="fixed inset-0 -z-10 bg-[#f8fafc] bg-gradient-3d w-full h-full pointer-events-none overflow-hidden transition-colors duration-300">
       <Canvas camera={{ position: [0, 0, 1.8], fov: 45 }} dpr={[1, 1.5]} performance={{ min: 0.5 }}>
         {/* Holographic grid floor */}
         <GridFloor />
@@ -74,10 +74,6 @@ export default function Scene3D() {
         {/* Wealth Gold/Champagne Cosmic Bubbles */}
         <QuantumBubbles color="#ca8a04" count={60} speedFactor={-0.8} sizeVal={0.04} />
       </Canvas>
-      
-      {/* Background Ambient glows */}
-      <div className="absolute top-[15%] left-[20%] w-[500px] h-[500px] bg-accent-blue/10 rounded-full blur-[120px] pointer-events-none animate-glow-pulse -z-20" />
-      <div className="absolute bottom-[15%] right-[20%] w-[600px] h-[600px] bg-accent-blue-hover/10 rounded-full blur-[140px] pointer-events-none animate-glow-pulse -z-20" style={{ animationDelay: '-5s' }} />
     </div>
   );
 }

@@ -144,26 +144,9 @@ export default function Hero() {
           onMouseLeave={() => setIsHovered(false)}
           className="relative w-full h-full flex justify-end items-end overflow-visible pointer-events-auto"
         >
-          {/* Holographic HUD Overlay Indicators - Floating next to the cut-out image */}
-          <div className={`absolute top-[25%] left-[-30px] text-[8px] font-mono bg-white/90 border border-slate-200/70 text-slate-800 px-1.5 py-0.5 rounded transition-opacity duration-300 z-20 shadow-sm ${isHovered ? 'opacity-100' : 'opacity-0'}`}>
-            [SYS.ACTIVE]
-          </div>
-          <div className={`absolute top-[35%] left-[-30px] text-[8px] font-mono bg-white/90 border border-slate-200/70 text-slate-800 px-1.5 py-0.5 rounded transition-opacity duration-300 z-20 shadow-sm ${isHovered ? 'opacity-100' : 'opacity-0'}`}>
-            [CGPA.8.49]
-          </div>
-          <div className={`absolute top-[45%] left-[-30px] text-[8px] font-mono bg-white/90 border border-slate-200/70 text-slate-800 px-1.5 py-0.5 rounded transition-opacity duration-300 z-20 shadow-sm ${isHovered ? 'opacity-100' : 'opacity-0'}`}>
-            [LOC.INDIA]
-          </div>
-          <div className={`absolute top-[55%] left-[-30px] text-[8px] font-mono bg-white/90 border border-slate-200/70 text-slate-800 px-1.5 py-0.5 rounded transition-opacity duration-300 z-20 shadow-sm ${isHovered ? 'opacity-100' : 'opacity-0'}`}>
-            [DEV.READY]
-          </div>
-
           {/* Faint ambient color backdrops */}
           <div className="absolute w-72 h-[350px] rounded-full bg-accent-blue/5 blur-[50px] -z-10 right-0 bottom-0 animate-pulse animate-glow-pulse" />
           <div className="absolute w-80 h-[400px] rounded-full bg-accent-blue-hover/5 blur-[60px] -z-10 right-0 bottom-0" style={{ animationDelay: '-2s' }} />
-          
-          {/* Laser Scanner Effect - Visible ONLY when hovered */}
-          {isHovered && <div className="absolute right-0 w-[80%] laser-scan z-15 pointer-events-none" style={{ bottom: '10%' }} />}
           
           {/* The cut-out portrait picture inside ThreeDPhoto */}
           <ThreeDPhoto isHovered={isHovered} />
