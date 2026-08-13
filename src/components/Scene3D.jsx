@@ -5,7 +5,7 @@ import { Points, PointMaterial } from '@react-three/drei';
 function QuantumBubbles({ color, count, speedFactor, sizeVal }) {
   const ref = useRef();
   
-  // Generate random coordinate bounds for MCU quantum energy bubbles
+  // Generate random coordinate bounds for quantum energy bubbles
   const [points] = useState(() => {
     const arr = new Float32Array(count * 3);
     for (let i = 0; i < count; i++) {
@@ -20,8 +20,8 @@ function QuantumBubbles({ color, count, speedFactor, sizeVal }) {
     if (!ref.current) return;
     
     // Slow rotational orbits simulating floating energy particles
-    ref.current.rotation.x += delta * 0.012 * speedFactor;
-    ref.current.rotation.y += delta * 0.018 * speedFactor;
+    ref.current.rotation.x += delta * 0.01 * speedFactor;
+    ref.current.rotation.y += delta * 0.015 * speedFactor;
     
     // Smooth mouse draft
     const targetX = state.mouse.x * 0.1;
@@ -38,7 +38,7 @@ function QuantumBubbles({ color, count, speedFactor, sizeVal }) {
         size={sizeVal}
         sizeAttenuation={true}
         depthWrite={false}
-        opacity={0.35}
+        opacity={0.45}
       />
     </Points>
   );
@@ -48,13 +48,13 @@ function GridFloor() {
   const ref = useRef();
   useFrame((state) => {
     if (!ref.current) return;
-    ref.current.rotation.z = Math.sin(state.clock.getElapsedTime() * 0.12) * 0.03;
+    ref.current.rotation.z = Math.sin(state.clock.getElapsedTime() * 0.08) * 0.02;
   });
 
   return (
     <gridHelper
       ref={ref}
-      args={[45, 45, '#1e293b', '#080c18']}
+      args={[45, 45, '#cbd5e1', '#cbd5e1']}
       position={[0, -1.8, 0]}
       rotation={[Math.PI / 2.15, 0, 0]}
     />
@@ -63,21 +63,21 @@ function GridFloor() {
 
 export default function Scene3D() {
   return (
-    <div className="fixed inset-0 -z-10 bg-[#020206] w-full h-full pointer-events-none overflow-hidden transition-colors duration-300">
+    <div className="fixed inset-0 -z-10 bg-[#f8fafc] w-full h-full pointer-events-none overflow-hidden transition-colors duration-300">
       <Canvas camera={{ position: [0, 0, 1.8], fov: 45 }} dpr={[1, 1.5]} performance={{ min: 0.5 }}>
         {/* Holographic grid floor */}
         <GridFloor />
         
         {/* Stark Cyan Quantum Bubbles */}
-        <QuantumBubbles color="#06b6d4" count={100} speedFactor={1} sizeVal={0.035} />
+        <QuantumBubbles color="#06b6d4" count={70} speedFactor={1} sizeVal={0.035} />
         
-        {/* Power Purple Cosmic Bubbles */}
-        <QuantumBubbles color="#a855f7" count={80} speedFactor={-0.8} sizeVal={0.045} />
+        {/* Wealth Gold/Champagne Cosmic Bubbles */}
+        <QuantumBubbles color="#ca8a04" count={60} speedFactor={-0.8} sizeVal={0.04} />
       </Canvas>
       
       {/* Background Ambient glows */}
-      <div className="absolute top-[20%] left-[15%] w-[450px] h-[450px] bg-accent-blue/4 rounded-full blur-[100px] pointer-events-none animate-glow-pulse -z-20" />
-      <div className="absolute bottom-[20%] right-[15%] w-[550px] h-[550px] bg-accent-purple/3 rounded-full blur-[130px] pointer-events-none animate-glow-pulse -z-20" style={{ animationDelay: '-5s' }} />
+      <div className="absolute top-[15%] left-[20%] w-[500px] h-[500px] bg-accent-blue/10 rounded-full blur-[120px] pointer-events-none animate-glow-pulse -z-20" />
+      <div className="absolute bottom-[15%] right-[20%] w-[600px] h-[600px] bg-accent-blue-hover/10 rounded-full blur-[140px] pointer-events-none animate-glow-pulse -z-20" style={{ animationDelay: '-5s' }} />
     </div>
   );
 }

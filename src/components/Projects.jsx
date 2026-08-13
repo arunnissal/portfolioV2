@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight, CheckCircle, Settings } from 'lucide-react';
 import { Github } from './BrandIcons';
+import useTilt from '../hooks/useTilt';
 
 export default function Projects() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showFeatures, setShowFeatures] = useState(false);
   const [showWorkings, setShowWorkings] = useState(false);
   const [direction, setDirection] = useState(0); // For slide animations direction: -1 (left), 1 (right)
+  const projectTilt = useTilt({ max: 5, scale: 1.01 });
 
   const projectsList = [
     {
@@ -167,7 +169,7 @@ export default function Projects() {
         {/* Section Heading */}
         <div className="text-center mb-2 flex-shrink-0">
           <div className="flex items-center justify-center gap-2 mb-1">
-            <h2 className="text-2xl md:text-4xl font-extrabold text-white tracking-tight uppercase">Featured Projects</h2>
+            <h2 className="text-2xl md:text-4xl font-extrabold text-text-light tracking-tight uppercase">Featured Projects</h2>
           </div>
           <div className="w-16 h-[2px] bg-accent-blue mx-auto rounded-full" />
           <p className="text-text-muted text-[11px] mt-1">Cycle through project decks using the chevron controls</p>
@@ -177,37 +179,39 @@ export default function Projects() {
         <div className="flex-grow flex flex-col justify-center gap-4 overflow-hidden py-2 relative">
           
           {/* Main Card Slider Body */}
-          <div className="flex items-center justify-between gap-4 w-full relative">
+          <div className="flex items-center justify-between gap-4 w-full relative font-mono">
             
             {/* Left Prev Arrow */}
             <button
               onClick={handlePrev}
-              className="p-2 rounded-full border border-white/5 hover:border-accent-blue/30 bg-[#080713]/60 hover:bg-black text-white hover:text-accent-blue-hover transition-all duration-300 cursor-pointer shadow-[0_0_8px_rgba(0,0,0,0.4)]"
+              className="p-2.5 rounded-full border border-slate-200/80 hover:border-accent-blue/30 bg-white/80 hover:bg-slate-100 text-slate-800 hover:text-accent-blue transition-all duration-300 cursor-pointer shadow-md"
             >
               <ChevronLeft size={20} />
             </button>
 
-            {/* Slider Active Card Container */}
+            {/* Slider Active Card Container with 3D Mouse Tilt */}
             <div className="flex-grow relative h-[250px] md:h-[220px] overflow-hidden flex items-center justify-center">
               <AnimatePresence initial={false} custom={direction} mode="wait">
                 <motion.div
+                  ref={projectTilt.ref}
+                  style={projectTilt.style}
                   key={currentIndex}
                   custom={direction}
                   variants={slideVariants}
                   initial="enter"
                   animate="center"
                   exit="exit"
-                  className="absolute w-full h-full glass-card p-5 rounded-xl flex flex-col justify-between text-left group overflow-hidden"
+                  className="absolute w-full h-full glass-card p-5 rounded-xl flex flex-col justify-between text-left group overflow-hidden border border-white/50"
                 >
-                  <div className="absolute inset-0 card-glare opacity-20 pointer-events-none" />
+                  <div className="absolute inset-0 card-glare opacity-25 pointer-events-none" />
                   <div>
                     {/* Header */}
                     <div className="flex justify-between items-start mb-2">
                       <div>
-                        <span className="text-[9px] font-mono text-accent-blue-hover uppercase tracking-widest font-bold">
+                        <span className="text-[10px] font-mono text-accent-blue font-bold uppercase tracking-widest">
                           [PROJECT_{String(currentIndex + 1).padStart(2, '0')}/{String(projectsList.length).padStart(2, '0')}]
                         </span>
-                        <h3 className="text-white font-black text-lg md:text-xl mt-0.5">{activeProject.title}</h3>
+                        <h3 className="text-text-light font-black text-lg md:text-xl mt-0.5">{activeProject.title}</h3>
                       </div>
                       {activeProject.isAwardWinner && (
                         <span className="text-[8px] font-mono px-1.5 py-0.5 rounded bg-accent-blue/15 border border-accent-blue/30 text-accent-blue font-bold animate-pulse">
@@ -217,16 +221,16 @@ export default function Projects() {
                     </div>
 
                     {/* Tagline */}
-                    <p className="text-accent-gold text-[10px] font-mono uppercase tracking-wider mb-2 font-medium">{activeProject.tagline}</p>
+                    <p className="text-accent-blue-hover text-[10px] font-mono uppercase tracking-wider mb-2 font-bold">{activeProject.tagline}</p>
 
                     {/* Overview */}
-                    <p className="text-text-muted text-xs leading-relaxed line-clamp-3 md:line-clamp-4">{activeProject.description}</p>
+                    <p className="text-text-muted text-xs leading-relaxed line-clamp-3 md:line-clamp-4 font-sans">{activeProject.description}</p>
                   </div>
 
                   {/* Badges footer */}
-                  <div className="flex flex-wrap gap-1 pt-2 border-t border-white/5 mt-2">
+                  <div className="flex flex-wrap gap-1.5 pt-2 border-t border-slate-200/80 mt-2">
                     {activeProject.tags.map((tag) => (
-                      <span key={tag} className="text-[8px] font-mono px-2 py-0.5 rounded bg-[#080713] border border-white/5 text-text-light">{tag}</span>
+                      <span key={tag} className="text-[9px] font-mono px-2 py-0.5 rounded bg-slate-200 border border-slate-300/40 text-text-light font-semibold">{tag}</span>
                     ))}
                   </div>
                 </motion.div>
@@ -236,7 +240,7 @@ export default function Projects() {
             {/* Right Next Arrow */}
             <button
               onClick={handleNext}
-              className="p-2 rounded-full border border-white/5 hover:border-accent-blue/30 bg-[#080713]/60 hover:bg-black text-white hover:text-accent-blue-hover transition-all duration-300 cursor-pointer shadow-[0_0_8px_rgba(0,0,0,0.4)]"
+              className="p-2.5 rounded-full border border-slate-200/80 hover:border-accent-blue/30 bg-white/80 hover:bg-slate-100 text-slate-800 hover:text-accent-blue transition-all duration-300 cursor-pointer shadow-md"
             >
               <ChevronRight size={20} />
             </button>
@@ -249,7 +253,7 @@ export default function Projects() {
                 key={i}
                 onClick={() => setCurrentIndex(i)}
                 className={`h-[3px] rounded-full transition-all duration-300 cursor-pointer ${
-                  i === currentIndex ? 'w-6 bg-accent-blue shadow-[0_0_6px_#ec4899]' : 'w-2 bg-white/10 hover:bg-white/20'
+                  i === currentIndex ? 'w-6 bg-accent-blue shadow-[0_0_6px_rgba(2,132,199,0.4)]' : 'w-2 bg-slate-300 hover:bg-slate-400'
                 }`}
               />
             ))}
@@ -262,9 +266,9 @@ export default function Projects() {
             <div className="space-y-1">
               <div 
                 onClick={() => setShowFeatures(!showFeatures)} 
-                className="p-2.5 bg-black/40 hover:bg-black/60 border border-white/5 rounded-lg cursor-pointer flex justify-between items-center transition-colors"
+                className="p-2.5 bg-slate-200/60 hover:bg-slate-200/90 border border-slate-200/80 rounded-lg cursor-pointer flex justify-between items-center transition-colors"
               >
-                <span className="text-white text-[10px] font-bold font-mono tracking-wider uppercase flex items-center gap-2">
+                <span className="text-text-light text-[10px] font-bold font-mono tracking-wider uppercase flex items-center gap-2">
                   <CheckCircle size={12} className="text-accent-blue" />
                   <span>🛠️ Core Features ({activeProject.features.length})</span>
                 </span>
@@ -278,7 +282,7 @@ export default function Projects() {
                     exit={{ height: 0, opacity: 0 }}
                     className="overflow-hidden"
                   >
-                    <ul className="list-disc list-outside text-text-muted text-xs pl-5 space-y-1 py-1.5 text-left bg-black/20 rounded-lg p-3 border border-white/5">
+                    <ul className="list-disc list-outside text-text-muted text-xs pl-5 space-y-1 py-1.5 text-left bg-white/50 rounded-lg p-3 border border-slate-200/50 font-sans">
                       {activeProject.features.map((f, i) => <li key={i}>{f}</li>)}
                     </ul>
                   </motion.div>
@@ -290,9 +294,9 @@ export default function Projects() {
             <div className="space-y-1">
               <div 
                 onClick={() => setShowWorkings(!showWorkings)} 
-                className="p-2.5 bg-black/40 hover:bg-black/60 border border-white/5 rounded-lg cursor-pointer flex justify-between items-center transition-colors"
+                className="p-2.5 bg-slate-200/60 hover:bg-slate-200/90 border border-slate-200/80 rounded-lg cursor-pointer flex justify-between items-center transition-colors"
               >
-                <span className="text-white text-[10px] font-bold font-mono tracking-wider uppercase flex items-center gap-2">
+                <span className="text-text-light text-[10px] font-bold font-mono tracking-wider uppercase flex items-center gap-2">
                   <Settings size={12} className="text-accent-blue" />
                   <span>⚡ Tech Workflow &amp; Architecture</span>
                 </span>
@@ -306,7 +310,7 @@ export default function Projects() {
                     exit={{ height: 0, opacity: 0 }}
                     className="overflow-hidden"
                   >
-                    <p className="text-text-muted text-[11px] leading-relaxed bg-black/45 p-3.5 rounded-lg border border-white/5 font-mono text-left py-2.5">
+                    <p className="text-text-muted text-[11px] leading-relaxed bg-white/50 p-3.5 rounded-lg border border-slate-200/50 font-mono text-left py-2.5">
                       {activeProject.working}
                     </p>
                   </motion.div>
@@ -317,12 +321,12 @@ export default function Projects() {
           </div>
 
           {/* Links Footer */}
-          <div className="flex justify-end pt-2 border-t border-white/5 mt-2">
+          <div className="flex justify-end pt-2 border-t border-slate-200/50 mt-2">
             <a
               href={activeProject.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded bg-white/5 hover:bg-white/10 text-white font-semibold text-[10px] border border-white/10 transition-colors"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-[10px] border border-slate-200 transition-colors"
             >
               <Github size={12} />
               <span>Codebase</span>

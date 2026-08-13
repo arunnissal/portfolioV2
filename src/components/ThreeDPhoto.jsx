@@ -3,34 +3,22 @@ import avatarImg from '../assets/avatar.jpeg';
 
 export default function ThreeDPhoto({ isHovered = false }) {
   return (
-    <div className="w-full h-full relative flex items-center justify-center overflow-visible select-none p-1">
-      {/* Sleek static image card with smooth grayscale and outline transitions */}
-      <div 
-        className={`w-[230px] h-[300px] md:w-[260px] md:h-[340px] rounded-2xl overflow-hidden relative border transition-all duration-500 ease-out shadow-2xl ${
-          isHovered 
-            ? 'border-accent-blue-hover/60 scale-[1.03] shadow-[0_0_25px_rgba(236,72,153,0.25)]' 
-            : 'border-white/10 shadow-[0_8px_30px_rgb(0,0,0,0.4)]'
+    <div className="relative w-full h-full flex items-end justify-end select-none">
+      {/* 
+        Multiply blend mode makes the white studio background of the portrait photo 
+        completely transparent, blending it seamlessly into the light slate backdrop of the site.
+      */}
+      <img 
+        src={avatarImg} 
+        alt="Arunnissal B"
+        className={`max-h-[85vh] md:max-h-[90vh] w-auto object-cover object-bottom transition-all duration-700 ease-out mix-blend-multiply ${
+          isHovered ? 'scale-[1.01] brightness-105 contrast-[1.01]' : 'grayscale-[10%] brightness-100'
         }`}
-      >
-        {/* Glowing glass overlay card glare */}
-        <div className={`absolute inset-0 card-glare z-10 transition-opacity duration-300 pointer-events-none ${isHovered ? 'opacity-100' : 'opacity-30'}`} />
-
-        {/* The portrait picture */}
-        <img 
-          src={avatarImg} 
-          alt="Arunnissal B"
-          className={`w-full h-full object-cover transition-all duration-700 ease-out ${
-            isHovered ? 'grayscale-0 brightness-[1.05] contrast-[1.02]' : 'grayscale-[40%] brightness-95'
-          }`}
-          onError={(e) => {
-            console.warn("Avatar image failed to load, loading fallback graphics.");
-            e.target.style.display = 'none';
-          }}
-        />
-
-        {/* Dynamic projector laser light bars at the bottom */}
-        <div className={`absolute bottom-0 left-0 w-full h-[60px] bg-gradient-to-t from-accent-blue/20 to-transparent pointer-events-none z-10 transition-opacity duration-300 ${isHovered ? 'opacity-100' : 'opacity-40'}`} />
-      </div>
+        onError={(e) => {
+          console.warn("Avatar image failed to load, loading fallback graphics.");
+          e.target.style.display = 'none';
+        }}
+      />
     </div>
   );
 }
