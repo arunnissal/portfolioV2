@@ -14,6 +14,7 @@ export default function Navbar() {
     { name: 'Capabilities', href: '#capabilities' },
     { name: 'Projects', href: '#projects' },
     { name: 'Credentials', href: '#achievements' },
+    { name: 'Journal', href: '#buildlog' },
     { name: 'Architectures', href: '#terminal' },
     { name: 'Contact', href: '#contact' },
   ];
@@ -22,11 +23,11 @@ export default function Navbar() {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
 
-      // Math scroll spy indexing for 8 vertical full-screen snaps
+      // Math scroll spy indexing for 9 vertical full-screen snaps
       const scrollY = window.scrollY;
       const height = window.innerHeight;
       
-      const sections = ['home', 'about', 'experience', 'capabilities', 'projects', 'achievements', 'terminal', 'contact'];
+      const sections = ['home', 'about', 'experience', 'capabilities', 'projects', 'achievements', 'buildlog', 'terminal', 'contact'];
       const index = Math.min(Math.max(Math.floor((scrollY + height * 0.4) / height), 0), sections.length - 1);
       setActiveSection(sections[index]);
     };
@@ -35,7 +36,7 @@ export default function Navbar() {
   }, []);
 
   return (
-    <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${scrolled ? 'glassmorphism-nav py-4' : 'bg-transparent py-6'}`}>
+    <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${scrolled ? 'glassmorphism-nav py-3' : 'bg-transparent py-5'}`}>
       <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
         {/* Logo */}
         <a href="#home" className="flex items-center gap-2 text-text-light hover:text-accent-blue transition-colors font-bold text-lg font-mono">
@@ -46,14 +47,14 @@ export default function Navbar() {
         </a>
 
         {/* Desktop Navigation Links */}
-        <div className="hidden md:flex items-center gap-4">
+        <div className="hidden lg:flex items-center gap-2">
           {navLinks.map((link) => {
             const isActive = activeSection === link.href.substring(1);
             return (
               <a
                 key={link.name}
                 href={link.href}
-                className={`px-3 py-2 rounded-md text-[10px] font-semibold font-mono uppercase tracking-wider transition-all duration-300 relative cursor-pointer ${
+                className={`px-2.5 py-1.5 rounded text-[10px] font-semibold font-mono uppercase tracking-wider transition-all duration-300 relative cursor-pointer ${
                   isActive ? 'text-accent-blue' : 'text-text-muted hover:text-text-light'
                 }`}
               >
@@ -61,7 +62,7 @@ export default function Navbar() {
                 {isActive && (
                   <motion.div
                     layoutId="activeNavIndicator"
-                    className="absolute bottom-[-4px] left-0 w-full h-[2px] bg-accent-blue"
+                    className="absolute bottom-[-2px] left-0 w-full h-[2px] bg-accent-blue"
                     transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                   />
                 )}
@@ -72,14 +73,14 @@ export default function Navbar() {
           <a
             href="/resume.pdf"
             download="Arunnissal_B_Resume.pdf"
-            className="ml-2 px-4 py-2 text-[10px] font-bold font-mono tracking-wider text-white bg-accent-blue hover:bg-accent-blue-hover rounded transition-colors duration-300"
+            className="ml-2 px-3 py-1.5 text-[10px] font-bold font-mono tracking-wider text-white bg-accent-blue hover:bg-accent-blue-hover rounded transition-colors duration-300"
           >
             RESUME
           </a>
         </div>
 
         {/* Mobile Menu Button */}
-        <div className="md:hidden">
+        <div className="lg:hidden">
           <button
             onClick={() => setIsOpen(!isOpen)}
             className="p-2 text-text-muted hover:text-text-light transition-colors"
@@ -96,9 +97,9 @@ export default function Navbar() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden border-t border-slate-850 bg-primary-dark"
+            className="lg:hidden border-t border-slate-850 bg-primary-dark"
           >
-            <div className="px-6 py-4 flex flex-col gap-3 text-left">
+            <div className="px-6 py-4 flex flex-col gap-2.5 text-left">
               {navLinks.map((link) => {
                 const isActive = activeSection === link.href.substring(1);
                 return (
@@ -106,7 +107,7 @@ export default function Navbar() {
                     key={link.name}
                     href={link.href}
                     onClick={() => setIsOpen(false)}
-                    className={`py-2 text-sm font-semibold font-mono uppercase tracking-wider transition-all duration-300 ${
+                    className={`py-1.5 text-xs font-semibold font-mono uppercase tracking-wider transition-all duration-300 ${
                       isActive ? 'text-accent-blue pl-2 border-l-2 border-accent-blue' : 'text-text-muted hover:text-text-light'
                     }`}
                   >
@@ -118,7 +119,7 @@ export default function Navbar() {
                 href="/resume.pdf"
                 download="Arunnissal_B_Resume.pdf"
                 onClick={() => setIsOpen(false)}
-                className="py-2.5 text-center text-xs font-bold font-mono tracking-wider text-white bg-accent-blue hover:bg-accent-blue-hover rounded transition-colors"
+                className="py-2 text-center text-[10px] font-bold font-mono tracking-wider text-white bg-accent-blue hover:bg-accent-blue-hover rounded transition-colors"
               >
                 DOWNLOAD RESUME
               </a>

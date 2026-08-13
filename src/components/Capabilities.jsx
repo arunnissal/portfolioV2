@@ -4,6 +4,25 @@ import { Text, Line } from '@react-three/drei';
 import { Cpu, ChevronRight, Layers, Target, Compass } from 'lucide-react';
 import useTilt from '../hooks/useTilt';
 
+function DataPacket({ startPosition, color }) {
+  const ref = useRef();
+  useFrame((state) => {
+    if (!ref.current) return;
+    const t = state.clock.getElapsedTime();
+    const progress = (t * 0.4) % 1.0;
+    ref.current.position.x = startPosition[0] * (1 - progress);
+    ref.current.position.y = startPosition[1] * (1 - progress);
+    ref.current.position.z = startPosition[2] * (1 - progress);
+  });
+
+  return (
+    <mesh ref={ref}>
+      <sphereGeometry args={[0.02, 8, 8]} />
+      <meshBasicMaterial color={color} toneMapped={false} />
+    </mesh>
+  );
+}
+
 function FloatingNode({ position, label, color, description, projects, onHover, activeNode }) {
   const meshRef = useRef();
   const [hovered, setHovered] = useState(false);
@@ -45,6 +64,12 @@ function FloatingNode({ position, label, color, description, projects, onHover, 
         points={[[0, 0, 0], [-position[0], -position[1], -position[2]]]}
         color={hovered || isActive ? 'var(--color-accent-gold)' : 'rgba(255,255,255,0.06)'}
         lineWidth={1.2}
+      />
+
+      {/* Dynamic flowing data packet particle along line */}
+      <DataPacket 
+        startPosition={[-position[0], -position[1], -position[2]]} 
+        color={hovered || isActive ? 'var(--color-accent-gold)' : 'var(--color-accent-blue)'} 
       />
 
       {/* Label Text floating above sphere */}

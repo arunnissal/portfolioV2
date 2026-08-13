@@ -7,6 +7,7 @@ import Experience from './components/Experience';
 import Capabilities from './components/Capabilities';
 import Projects from './components/Projects';
 import Achievements from './components/Achievements';
+import BuildLog from './components/BuildLog';
 import TerminalWidget from './components/TerminalWidget';
 import Contact from './components/Contact';
 import Scene3D from './components/Scene3D';
@@ -68,7 +69,7 @@ export default function App() {
             {/* Navigation Bar */}
             <Navbar />
 
-            {/* Vertical Section Slides (8 sections) */}
+            {/* Vertical Section Slides (9 sections) */}
             <main className="w-full">
               {/* Section 1: Home */}
               <section id="home" className="w-screen h-screen flex-shrink-0 flex items-center justify-center overflow-hidden snap-start relative">
@@ -100,12 +101,17 @@ export default function App() {
                 <Achievements />
               </section>
 
-              {/* Section 7: Code Terminal Interface */}
+              {/* Section 7: Build Log Journal */}
+              <section id="buildlog" className="w-screen h-screen flex-shrink-0 flex items-center justify-center overflow-hidden snap-start relative">
+                <BuildLog />
+              </section>
+
+              {/* Section 8: Code Terminal Interface */}
               <section id="terminal" className="w-screen h-screen flex-shrink-0 flex items-center justify-center overflow-hidden snap-start relative">
                 <TerminalWidget />
               </section>
 
-              {/* Section 8: Contact Comms */}
+              {/* Section 9: Contact Comms */}
               <section id="contact" className="w-screen h-screen flex-shrink-0 flex items-center justify-center overflow-hidden snap-start relative">
                 <Contact />
               </section>

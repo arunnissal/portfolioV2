@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Download, ArrowUpRight, Cpu, Terminal as TermIcon, Compass } from 'lucide-react';
 import { Github, Linkedin } from './BrandIcons';
-import ThreeDPhoto from './ThreeDPhoto';
+import SystemCoreCanvas from './SystemCoreCanvas';
 import useTilt from '../hooks/useTilt';
 
 export default function Hero() {
@@ -106,31 +106,34 @@ export default function Hero() {
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="lg:col-span-8 flex flex-col justify-center space-y-4 text-left"
+          className="lg:col-span-7 flex flex-col justify-center space-y-4 text-left"
         >
-          {/* Status Badge */}
+          {/* Eyebrow Label */}
           <motion.div variants={itemVariants} className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-accent-blue/30 bg-accent-blue/5 w-fit">
             <Cpu className="text-accent-blue animate-pulse" size={12} />
-            <span className="text-[11px] font-semibold tracking-wider uppercase text-accent-blue">Developer Pipeline Active</span>
+            <span className="text-[10px] font-bold tracking-widest uppercase text-accent-blue font-mono">Software Engineer × AI Engineer</span>
           </motion.div>
 
-          {/* Headline */}
-          <motion.h1 variants={itemVariants} className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-text-light leading-tight">
-            Building intelligent software experiences that <span className="text-gradient font-black">move from idea to production.</span>
+          {/* Main Headline */}
+          <motion.h1 variants={itemVariants} className="text-4xl md:text-5xl lg:text-[54px] font-black tracking-tight text-text-light leading-tight">
+            I build systems that <span className="text-gradient font-black">turn ideas into real products.</span>
           </motion.h1>
-
-          {/* Subtitle / Role Tag */}
-          <motion.h2 variants={itemVariants} className="text-lg md:text-xl font-bold text-accent-blue font-mono flex items-center gap-2">
-            <TermIcon className="text-accent-blue" size={20} />
-            <span>Software Engineer | AI Engineer | Full Stack Developer</span>
-          </motion.h2>
 
           {/* Supporting paragraph explaining full-stack, AI-powered and production-oriented apps */}
           <motion.p variants={itemVariants} className="text-text-muted max-w-xl text-sm md:text-base leading-relaxed font-sans">
-            I design and build full-stack web applications, AI-powered system integrations, and production-oriented digital products that turn complex goals into clean, scalable code architectures.
+            I specialize in full-stack engineering, production AI integration, and robust database architectures. I focus on writing clean, scalable backend code and building deployment pipelines.
           </motion.p>
 
-          {/* CTA Buttons & Social Icons inline to save vertical space */}
+          {/* Animated Skills/Technologies Metadata Bar */}
+          <motion.div variants={itemVariants} className="flex flex-wrap gap-2 pt-1 pb-2">
+            {['PYTHON', 'DJANGO', 'REACT', 'AI', 'SYSTEMS', 'POSTGRESQL'].map((tag) => (
+              <span key={tag} className="text-[9px] font-mono font-bold tracking-widest text-text-muted bg-slate-900 border border-slate-800 px-2 py-0.5 rounded shadow-sm">
+                {tag}
+              </span>
+            ))}
+          </motion.div>
+
+          {/* CTA Buttons & Social Icons inline */}
           <motion.div variants={itemVariants} className="flex flex-wrap items-center gap-4 pt-1">
             <a
               href="#about"
@@ -155,7 +158,7 @@ export default function Hero() {
               <span>Contact Me</span>
             </a>
 
-            {/* Inline Social Icons separator */}
+            {/* Inline Social Icons */}
             <div className="flex items-center gap-3 pl-4 border-l border-slate-800 h-6">
               <a 
                 href="https://github.com/arunnissal" 
@@ -236,28 +239,12 @@ export default function Hero() {
           </motion.div>
         </motion.div>
 
-      </div>
-
-      {/* Right Column: Editorial Portrait - Placed absolutely to sit flush in the bottom-right corner */}
-      <motion.div
-        initial={{ opacity: 0, x: 50 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
-        className="absolute right-0 bottom-0 h-[80vh] md:h-[85vh] lg:h-[90vh] w-[35%] lg:w-[30%] hidden lg:flex justify-end items-end select-none z-0 pointer-events-none"
-      >
-        <div 
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-          className="relative w-full h-full flex justify-end items-end overflow-visible pointer-events-auto"
-        >
-          {/* Faint ambient color backdrops */}
-          <div className="absolute w-72 h-[350px] rounded-full bg-accent-blue/5 blur-[50px] -z-10 right-0 bottom-0 animate-pulse" />
-          <div className="absolute w-80 h-[400px] rounded-full bg-accent-purple/5 blur-[60px] -z-10 right-0 bottom-0" style={{ animationDelay: '-2s' }} />
-          
-          {/* The cut-out portrait picture inside ThreeDPhoto */}
-          <ThreeDPhoto isHovered={isHovered} />
+        {/* Right Column: 3D System Core visualization */}
+        <div className="lg:col-span-5 hidden lg:block h-[400px]">
+          <SystemCoreCanvas />
         </div>
-      </motion.div>
+
+      </div>
 
       {/* Subtle floating scroll down indicator */}
       <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 opacity-60 pointer-events-none z-20">

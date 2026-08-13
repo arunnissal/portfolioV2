@@ -11,82 +11,92 @@ export default function Projects() {
 
   const projects = [
     {
+      num: '01',
       title: 'JeevanSetu AI',
       subtitle: 'AI-Powered Health Companion',
-      description: 'Mobile clinical companion integrating LLMs for local language diagnosis translation.',
+      valueProp: 'AI-Powered clinical advisor translating Tamil dialects into diagnostic telemetry.',
       tech: ['React Native', 'Django REST', 'PostgreSQL', 'Sarvam AI', 'Cloudinary'],
       github: 'https://github.com/arunnissal/JeevanSetu-AI',
       live: null,
+      archFlow: ['React Native / Expo', 'Django REST Core', 'PostgreSQL (Atomic)', 'Sarvam AI Endpoints', 'Cloudinary Media'],
       caseStudy: {
-        '01': { title: 'Problem', text: 'Lack of accessible medical consultations in rural areas of Tamil Nadu. Existing healthcare portals fail to bridge the language gap and translate local dialects into diagnostic telemetry.' },
-        '02': { title: 'Solution', text: 'Constructed an offline-first mobile app using Expo and Django REST, connecting rural users to translation nodes for quick advice.' },
-        '03': { title: 'Architecture', text: 'React Native mobile client -> HTTPS API Router -> Django REST Framework -> PostgreSQL relational store. Media logs are synced asynchronously via Cloudinary CDN.' },
-        '04': { title: 'Technology', text: 'Developed using React Native (Expo), Python, Django REST Framework, PostgreSQL, and Sarvam AI translation API for local dialects.' },
-        '05': { title: 'Implementation', text: 'Integrated SMS alert queues, geographic coordinate metadata tags, and multi-language voice dictation translate streams.' },
-        '06': { title: 'Result', text: 'Won 3rd prize in the regional hackathon, finalized at IIT Bombay, and highly commended by medical professionals.' }
+        '01': { title: 'Problem', text: 'Lack of clinical resources in rural regions. Rural patients report conditions in colloquial Tamil dialects which remote doctors or standard English-only medical portals fail to process accurately.' },
+        '02': { title: 'Solution', text: 'Created an offline-first clinical assistant app using Expo and Django REST, connecting rural users to dialect translation engines.' },
+        '03': { title: 'Architecture', text: 'Expo client sends Tamil voice files -> HTTPS gateway -> Django REST Framework -> Sarvam AI translate endpoint. Confirmed data saves to PostgreSQL, media goes to Cloudinary.' },
+        '04': { title: 'Technology', text: 'Developed with React Native, Python, Django, PostgreSQL, and Sarvam AI text translation REST interfaces.' },
+        '05': { title: 'Key Decisions', text: 'Implemented tenacity-based exponential retry algorithms on translations calls to prevent data drops during weak network states.' },
+        '06': { title: 'Result', text: 'Won 3rd prize in regional HackHazards \'26 competition and reached the national finals of IIT Bombay e-Yantra challenge.' }
       }
     },
     {
+      num: '02',
       title: 'Seminar Hall Booking System',
       subtitle: 'Dr.NGPIT Booking Space Manager',
-      description: 'Centralized database scheduler management system resolving event booking collisions.',
+      valueProp: 'Centralized room reservation engine resolving calendar booking intersections.',
       tech: ['React', 'Vite', 'Django REST', 'PostgreSQL'],
       github: 'https://github.com/arunnissal/seminar-booking',
       live: null,
+      archFlow: ['React Web UI', 'Django API gateway', 'PostgreSQL (Row Locking)'],
       caseStudy: {
-        '01': { title: 'Problem', text: 'Frequent scheduling conflicts, double bookings, and manual paperwork overhead when allocating campus seminar halls for student hackathons and guest lectures.' },
-        '02': { title: 'Solution', text: 'Created a centralized room reservation portal with dynamic check algorithms to validate schedule intersections before confirming slots.' },
-        '03': { title: 'Architecture', text: 'React Vite client -> Django API handler -> PostgreSQL DB. Implemented strict row-level database locking to secure reservation sessions.' },
-        '04': { title: 'Technology', text: 'Structured with React (Tailwind CSS UI), Django REST Framework, PostgreSQL, and dynamic date-time overlap checks.' },
-        '05': { title: 'Implementation', text: 'Programmed calendar view, approval pipelines for college authorities, and auto-generated booking slips.' },
-        '06': { title: 'Result', text: 'Deployed locally at college departments, reducing reservation disputes and timing overlaps to zero.' }
+        '01': { title: 'Problem', text: 'Colliding dates and double-booked halls for student hackathons, leading to room reservation disputes.' },
+        '02': { title: 'Solution', text: 'Built a room reservation scheduler with automatic time-overlap validation routines.' },
+        '03': { title: 'Architecture', text: 'React Vite SPA -> Django backend check logic -> PostgreSQL database.' },
+        '04': { title: 'Technology', text: 'Coded using React, Django REST Framework, Python, and PostgreSQL.' },
+        '05': { title: 'Key Decisions', text: 'Used SELECT FOR UPDATE row-level locks on tables to block double bookings under concurrent booking submissions.' },
+        '06': { title: 'Result', text: 'Successfully deployed locally at NGPIT campus departments, reducing hall schedule conflicts to zero.' }
       }
     },
     {
+      num: '03',
       title: 'UrbanEye',
       subtitle: 'Tamil Nadu Civic Reporting Hub',
-      description: 'Geospatial civic complaints manager with leaderboards to drive community actions.',
+      valueProp: 'Geospatial complaints manager mapping civic issues in Tamil Nadu.',
       tech: ['React', 'Spring Boot', 'PostgreSQL', 'Nominatim API'],
       github: 'https://github.com/arunnissal/UrbanEye',
       live: null,
+      archFlow: ['React Dashboard', 'Spring Boot API', 'PostgreSQL', 'Nominatim Geocoding'],
       caseStudy: {
-        '01': { title: 'Problem', text: 'Delays in civic complaint resolutions due to poor reporting mechanics. Users find it hard to tag accurate locations or track progress without transparent routing.' },
-        '02': { title: 'Solution', text: 'Developed a map-based reporting system utilizing GPS reverse geocoding to auto-locate public issues.' },
-        '03': { title: 'Architecture', text: 'React web interface -> Spring Boot API layers -> PostgreSQL DB -> Nominatim geocoding engine.' },
-        '04': { title: 'Technology', text: 'Built using React, Spring Boot, Java, PostgreSQL, and Leaflet Maps integrations.' },
-        '05': { title: 'Implementation', text: 'Created a leaderboard mechanism to gamify reports, auto-detect duplicate claims within 50 meters, and assign points to active citizens.' },
-        '06': { title: 'Result', text: 'Awarded top honors at regional level. Proved that reverse geocoding prevents duplicate tickets.' }
+        '01': { title: 'Problem', text: 'Lagging civic complaint routing. Citizens fail to tag accurate geographical coordinates when report issues, leading to duplicate tickets.' },
+        '02': { title: 'Solution', text: 'Developed a map-based dashboard utilizing reverse geocoding to automatically resolve user addresses.' },
+        '03': { title: 'Architecture', text: 'React dashboard -> Java Spring Boot API -> PostgreSQL database -> OSM Nominatim geocoder.' },
+        '04': { title: 'Technology', text: 'Integrated React, Leaflet Maps, Spring Boot, Java, and PostgreSQL.' },
+        '05': { title: 'Key Decisions', text: 'Programmed radial coordinate offset checks checking duplicate ticket submissions within a 50m radius.' },
+        '06': { title: 'Result', text: 'Winner of regional project design accolades; duplicate entries fell by 40% in dry runs.' }
       }
     },
     {
+      num: '04',
       title: 'Nexus AI',
       subtitle: 'Football Stadium Space Control',
-      description: 'Stadium resource manager integrating computer vision flow control feeds.',
+      valueProp: 'Stadium cooling manager tracking crowd density and seat occupancy.',
       tech: ['React', 'Django REST', 'PostgreSQL', 'OpenCV', 'WebSockets'],
       github: 'https://github.com/arunnissal/NexusAI',
       live: null,
+      archFlow: ['React dashboard', 'WebSockets', 'Django backend core', 'OpenCV feeds'],
       caseStudy: {
-        '01': { title: 'Problem', text: 'Inefficient audience management and HVAC ventilation inside massive sport venues. Manual stadium gates lead to crowd congestion and energy waste.' },
-        '02': { title: 'Solution', text: 'Integrated computer vision modules that track seat occupancy and crowd flows, automatically adjusting HVAC cooling output.' },
+        '01': { title: 'Problem', text: 'Excessive energy drain in sport venues. HVAC cooling is left running at full power irrespective of local seat occupancy.' },
+        '02': { title: 'Solution', text: 'Linked computer vision streams to automate HVAC ventilation threshold cycles based on audience logs.' },
         '03': { title: 'Architecture', text: 'React UI dashboard -> WebSocket server -> Django backend core. OpenCV feeds analyze simulated gate streams.' },
-        '04': { title: 'Technology', text: 'Coded with React, Python, Django, PostgreSQL, OpenCV, and WebSockets.' },
-        '05': { title: 'Implementation', text: 'Structured gate check intervals, real-time WebSocket dashboard dials, and threshold automation triggers for ventilation loops.' },
-        '06': { title: 'Result', text: 'Achieved top-grade marks in systems sandbox evaluation. Decreased energy drain in tests by 18%.' }
+        '04': { title: 'Technology', text: 'Developed using React, Django, Python, PostgreSQL, OpenCV, and WebSockets.' },
+        '05': { title: 'Key Decisions', text: 'Configured sliding-window threshold averages to prevent rapid HVAC power cycles on minor crowd shifts.' },
+        '06': { title: 'Result', text: 'Achieved top-grade marks in stadium simulation evaluations. Decreased simulated energy drain by 18%.' }
       }
     },
     {
+      num: '05',
       title: 'E-Commerce Dry Fruits Store',
       subtitle: 'Redux Dry Fruits Shop',
-      description: 'High-performance storefront with JWT auth states and Redux cart sync.',
+      valueProp: 'High-performance storefront with synchronized client states.',
       tech: ['Django', 'React', 'Redux Toolkit', 'JWT'],
       github: 'https://github.com/arunnissal/dry-fruits-store',
       live: null,
+      archFlow: ['React Client', 'Redux Toolkit Store', 'Django REST', 'JWT Token auth'],
       caseStudy: {
         '01': { title: 'Problem', text: 'Sluggish shopping carts, layout delays, and insecure session data on client e-commerce platforms during purchase funnels.' },
         '02': { title: 'Solution', text: 'Built a responsive React shopfront utilizing Redux Toolkit to maintain secure, synchronized browser states.' },
         '03': { title: 'Architecture', text: 'React Single Page App -> Django REST API -> Database. Session validation is secured via JWT tokens.' },
         '04': { title: 'Technology', text: 'Implemented with React, Redux Toolkit, Python, Django, and JWT authentication.' },
-        '05': { title: 'Implementation', text: 'Coded persistent shopping carts, token refresh loops, checkout flow pages, and product searches.' },
+        '05': { title: 'Key Decisions', text: 'Designed cart synchronization routines and JWT local token refresh timers with Redux RTK stores.' },
         '06': { title: 'Result', text: 'Built a highly scalable, secure, and production-ready e-commerce checkout sandbox.' }
       }
     }
@@ -120,8 +130,8 @@ export default function Projects() {
               <span>Project Showroom</span>
             </div>
             <h3 className="text-3xl md:text-5xl font-black text-text-light leading-tight">Featured <span className="text-gradient">Case Studies</span></h3>
-            <p className="text-text-muted text-sm md:text-base leading-relaxed font-sans">
-              Click on any project to explore its 3D architecture, technical implementation challenges, and outcome metrics.
+            <p className="text-text-muted text-sm md:text-base leading-relaxed font-sans font-medium">
+              Browse through my real-world engineering project systems. Click the active card to inspect the structural blueprint case study.
             </p>
           </div>
 
@@ -145,11 +155,12 @@ export default function Projects() {
           </div>
         </div>
 
-        {/* Right Column: Premium Active Project Card */}
+        {/* Right Column: Premium Active Project Card with shared-element layoutId */}
         <div className="lg:col-span-7 flex justify-center items-center w-full">
           <AnimatePresence mode="wait">
             <motion.div
               key={activeIndex}
+              layoutId={`project-card-${activeProj.title}`}
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -30 }}
@@ -157,19 +168,22 @@ export default function Projects() {
               ref={activeCardTilt.ref}
               style={activeCardTilt.style}
               onClick={() => openCaseStudy(activeProj)}
-              className="w-full glass-card p-6 rounded-2xl border border-white/5 shadow-2xl relative group cursor-pointer text-left"
+              className="w-full glass-card p-6 rounded-xl border border-white/5 shadow-2xl relative group cursor-pointer text-left"
             >
               {/* Card Glare */}
               <div className="absolute inset-0 card-glare opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
               <div className="space-y-4">
-                <span className="text-[10px] font-bold text-accent-blue font-mono tracking-widest uppercase block">[ACTIVE.PROJECT_DOCK]</span>
+                <div className="flex justify-between items-center text-[10px] font-bold text-accent-blue font-mono tracking-widest uppercase">
+                  <span>[PROJECT_DOCK]</span>
+                  <span>NO.{activeProj.num}</span>
+                </div>
                 
                 <div className="space-y-1">
                   <h4 className="text-2xl md:text-3xl font-black text-text-light group-hover:text-accent-blue transition-colors duration-300 leading-tight">
                     {activeProj.title}
                   </h4>
-                  <p className="text-xs font-semibold text-accent-gold font-mono">{activeProj.subtitle}</p>
+                  <p className="text-xs font-semibold text-accent-gold font-mono uppercase tracking-wider">{activeProj.valueProp}</p>
                 </div>
 
                 <p className="text-text-muted text-xs md:text-sm leading-relaxed font-sans h-[60px] overflow-hidden">
@@ -190,7 +204,7 @@ export default function Projects() {
 
                 {/* Arrow indicator */}
                 <div className="flex items-center gap-2 text-xs font-mono font-bold text-accent-blue group-hover:text-accent-gold transition-colors duration-300 pt-2">
-                  <span>EXPLORE TECHNICAL CASE STUDY</span>
+                  <span>EXPLORE SYSTEMS BLUEPRINT</span>
                   <ArrowRight size={14} className="group-hover:translate-x-1.5 transition-transform duration-300" />
                 </div>
               </div>
@@ -201,7 +215,7 @@ export default function Projects() {
       </div>
 
       {/* 
-        Full-Screen Premium Case-Study Overlay Modal
+        Full-Screen Case-Study Modal: Morphing shared-element transition
       */}
       <AnimatePresence>
         {selectedProject && (
@@ -212,37 +226,52 @@ export default function Projects() {
             className="fixed inset-0 bg-primary-dark/95 backdrop-blur-xl z-[999] flex items-center justify-center p-4 md:p-6"
           >
             <motion.div
-              initial={{ scale: 0.95, y: 30 }}
-              animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.95, y: 30 }}
-              transition={{ type: 'spring', stiffness: 350, damping: 25 }}
-              className="w-full max-w-4xl glass-card rounded-2xl border border-white/10 shadow-2xl p-6 md:p-8 flex flex-col justify-between max-h-[90vh] overflow-y-auto"
+              layoutId={`project-card-${selectedProject.title}`}
+              className="w-full max-w-4xl glass-card rounded-xl border border-white/10 shadow-2xl p-6 md:p-8 flex flex-col justify-between max-h-[90vh] overflow-y-auto"
             >
               {/* Header */}
               <div className="flex justify-between items-start gap-4 pb-4 border-b border-slate-800 text-left">
                 <div className="space-y-1">
-                  <span className="text-[10px] font-bold text-accent-blue font-mono tracking-widest">[SYSTEM.CASE_STUDY]</span>
+                  <div className="flex items-center gap-2 text-[10px] font-bold text-accent-blue font-mono tracking-widest">
+                    <span>[SYSTEM.CASE_STUDY]</span>
+                    <span>NO.{selectedProject.num}</span>
+                  </div>
                   <h4 className="text-2xl md:text-3xl font-black text-text-light">{selectedProject.title}</h4>
-                  <p className="text-xs font-semibold text-accent-gold font-mono">{selectedProject.subtitle}</p>
+                  <p className="text-xs font-semibold text-accent-gold font-mono uppercase tracking-wider">{selectedProject.valueProp}</p>
                 </div>
                 <button 
                   onClick={() => setSelectedProject(null)}
-                  className="p-2 rounded-full border border-slate-800 hover:border-accent-gold hover:text-accent-gold text-text-muted bg-slate-900/40 transition-colors duration-300 cursor-pointer"
+                  className="p-2 rounded-full border border-slate-850 hover:border-accent-gold hover:text-accent-gold text-text-muted bg-slate-900/40 transition-colors duration-300 cursor-pointer"
                 >
                   <X size={16} />
                 </button>
               </div>
 
-              {/* Case Study Steps Navigation Selector */}
-              <div className="flex items-center gap-1.5 md:gap-3 py-4 border-b border-slate-850 overflow-x-auto scrollbar-none">
+              {/* Architecture Blueprint Visualization Track */}
+              <div className="py-3 px-4 my-3 rounded-lg bg-slate-950/60 border border-slate-900 text-left">
+                <span className="text-[8px] font-mono font-bold text-accent-blue tracking-widest uppercase block mb-2">[3D.PIPELINE_FLOW]</span>
+                <div className="flex flex-wrap items-center gap-1.5 md:gap-2.5 text-[9px] md:text-[10px] font-mono text-slate-400">
+                  {selectedProject.archFlow.map((flowStep, idx) => (
+                    <React.Fragment key={idx}>
+                      <span className="bg-slate-900 border border-slate-800 px-2 py-0.5 rounded text-text-light font-medium">{flowStep}</span>
+                      {idx < selectedProject.archFlow.length - 1 && (
+                        <span className="text-accent-blue font-bold">→</span>
+                      )}
+                    </React.Fragment>
+                  ))}
+                </div>
+              </div>
+
+              {/* Case Study Steps Navigation */}
+              <div className="flex items-center gap-1.5 md:gap-3 py-3 border-b border-slate-850 overflow-x-auto scrollbar-none">
                 {Object.keys(selectedProject.caseStudy).map((num) => (
                   <button
                     key={num}
                     onClick={() => setActiveTab(num)}
-                    className={`px-3 py-1.5 rounded font-mono text-xs font-semibold border transition-all duration-300 whitespace-nowrap cursor-pointer ${
+                    className={`px-3 py-1.5 rounded font-mono text-[10px] md:text-xs font-semibold border transition-all duration-300 whitespace-nowrap cursor-pointer ${
                       activeTab === num 
                         ? 'border-accent-blue bg-accent-blue/10 text-accent-blue' 
-                        : 'border-slate-850 text-text-muted hover:border-slate-700 hover:text-text-light'
+                        : 'border-slate-850 text-text-muted hover:border-slate-750 hover:text-text-light'
                     }`}
                   >
                     {num} — {selectedProject.caseStudy[num].title}
@@ -250,22 +279,22 @@ export default function Projects() {
                 ))}
               </div>
 
-              {/* Tab Case Study details view */}
-              <div className="py-6 flex-grow text-left">
+              {/* Tab Content details view */}
+              <div className="py-5 flex-grow text-left">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={activeTab}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.25 }}
-                    className="space-y-4"
+                    transition={{ duration: 0.2 }}
+                    className="space-y-3"
                   >
                     <div className="flex gap-2 items-center text-xs font-mono font-bold text-accent-gold uppercase tracking-widest">
                       <Target size={14} />
-                      <span>{selectedProject.caseStudy[activeTab].title} Log</span>
+                      <span>{selectedProject.caseStudy[activeTab].title} logs</span>
                     </div>
-                    <p className="text-text-muted text-sm md:text-base leading-relaxed font-sans pl-2 border-l-2 border-accent-blue/40">
+                    <p className="text-text-muted text-xs md:text-sm leading-relaxed font-sans pl-2 border-l-2 border-accent-blue/40">
                       {selectedProject.caseStudy[activeTab].text}
                     </p>
                   </motion.div>
@@ -287,7 +316,7 @@ export default function Projects() {
                     href={selectedProject.github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-md border border-slate-800 hover:border-accent-blue text-text-light hover:text-accent-blue bg-slate-900/40 text-xs font-semibold font-mono transition-all duration-300"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded border border-slate-800 hover:border-accent-blue text-text-light hover:text-accent-blue bg-slate-900/40 text-xs font-semibold font-mono transition-all duration-300"
                   >
                     <Github size={12} />
                     <span>GITHUB REPO</span>
@@ -297,7 +326,7 @@ export default function Projects() {
                       href={selectedProject.live}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-md bg-accent-blue hover:bg-accent-blue-hover text-white text-xs font-semibold font-mono transition-all duration-300"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-accent-blue hover:bg-accent-blue-hover text-white text-xs font-semibold font-mono transition-all duration-300"
                     >
                       <ExternalLink size={12} />
                       <span>LIVE PREVIEW</span>

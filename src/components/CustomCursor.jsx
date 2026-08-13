@@ -2,13 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { motion, useMotionValue, useSpring } from 'framer-motion';
 
 export default function CustomCursor() {
-  const [isHoveringClickable, setIsHoveringClickable] = useState(false);
+  const [cursorState, setCursorState] = useState('DEFAULT'); // 'DEFAULT', 'LINK', 'PROJECT', '3D_OBJECT'
   const [isVisible, setIsVisible] = useState(false);
-  
-  // Real-time coordinates state for the floating digital display
   const [coords, setCoords] = useState({ x: 0, y: 0 });
 
-  // Motion values for smooth cursor tracking
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
 
@@ -17,7 +14,7 @@ export default function CustomCursor() {
   const trailY = useSpring(cursorY, springConfig);
 
   useEffect(() => {
-    // Disable on touch screens
+    // Disable completely on touch screen mobiles
     const isTouchDevice = window.matchMedia('(pointer: coarse)').matches;
     if (isTouchDevice) return;
 
@@ -32,17 +29,29 @@ export default function CustomCursor() {
 
     const handleMouseOver = (e) => {
       const target = e.target;
-      const isClickable = 
+      if (!target) return;
+
+      const isLink = 
         target.tagName === 'A' || 
         target.tagName === 'BUTTON' || 
         target.closest('a') || 
         target.closest('button') || 
-        target.closest('.glass-card') ||
-        target.closest('.cursor-pointer') ||
-        target.tagName === 'INPUT' ||
-        target.tagName === 'TEXTAREA';
-      
-      setIsHoveringClickable(!!isClickable);
+        target.tagName === 'INPUT' || 
+        target.tagName === 'TEXTAREA' ||
+        target.closest('.cursor-pointer');
+
+      const isProjectCard = target.closest('#projects') && target.closest('.glass-card');
+      const isCanvas = target.closest('canvas');
+
+      if (isProjectCard) {
+        setCursorState('PROJECT');
+      } else if (isCanvas) {
+        setCursorState('3D_OBJECT');
+      } else if (isLink) {
+        setCursorState('LINK');
+      } else {
+        setCursorState('DEFAULT');
+      }
     };
 
     window.addEventListener('mousemove', moveCursor);
@@ -60,58 +69,54 @@ export default function CustomCursor() {
   return (
     <>
       {/* 
-        Outer Holographic Target Reticle
-        Featuring rotating ticks and interactive crosshair corners
+        Outer Trailing HUD Reticle 
       */}
       <motion.div
-        className="fixed top-0 left-0 w-10 h-10 rounded-full border border-dashed pointer-events-none z-[9999] -translate-x-1/2 -translate-y-1/2 hidden md:block"
+        className="fixed top-0 left-0 w-8 h-8 rounded-full border pointer-events-none z-[9999] -translate-x-1/2 -translate-y-1/2 hidden md:block"
         style={{
           x: trailX,
           y: trailY,
-          scale: isHoveringClickable ? 1.4 : 1,
-          rotate: isHoveringClickable ? 90 : 0,
-          borderColor: isHoveringClickable ? 'var(--color-accent-gold)' : 'var(--color-accent-blue)',
-          backgroundColor: isHoveringClickable ? 'rgba(202, 138, 4, 0.04)' : 'rgba(2, 132, 199, 0.01)',
+          scale: cursorState === 'PROJECT' ? 1.6 : cursorState === 'LINK' ? 1.4 : cursorState === '3D_OBJECT' ? 1.2 : 0.8,
+          borderColor: cursorState === 'PROJECT' ? 'var(--color-accent-gold)' : cursorState === '3D_OBJECT' ? 'var(--color-accent-teal)' : 'var(--color-accent-blue)',
+          backgroundColor: cursorState === 'PROJECT' ? 'rgba(202, 138, 4, 0.05)' : 'rgba(6, 182, 212, 0.01)',
+          borderStyle: cursorState === '3D_OBJECT' ? 'dashed' : 'solid',
         }}
         transition={{ type: 'spring', stiffness: 500, damping: 28 }}
       >
-        {/* Four tiny HUD crosshair ticks */}
-        <div className="absolute top-[2px] left-1/2 -translate-x-1/2 w-0.5 h-1.5 bg-current" />
-        <div className="absolute bottom-[2px] left-1/2 -translate-x-1/2 w-0.5 h-1.5 bg-current" />
-        <div className="absolute left-[2px] top-1/2 -translate-y-1/2 w-1.5 h-0.5 bg-current" />
-        <div className="absolute right-[2px] top-1/2 -translate-y-1/2 w-1.5 h-0.5 bg-current" />
-      </motion.div>
-
-      {/* 
-        Center Pointer crosshair 
-      */}
-      <motion.div
-        className="fixed top-0 left-0 pointer-events-none z-[9999] -translate-x-1/2 -translate-y-1/2 hidden md:block flex items-center justify-center font-mono font-bold text-[9px]"
-        style={{
-          x: cursorX,
-          y: cursorY,
-          color: isHoveringClickable ? 'var(--color-accent-gold)' : 'var(--color-accent-blue)',
-        }}
-      >
-        +
-      </motion.div>
-
-      {/* 
-        Floating Digital Telemetry Tag (Reads cursor coordinates dynamically)
-      */}
-      <motion.div
-        className="fixed top-0 left-0 pointer-events-none z-[9999] hidden md:block font-mono text-[7px] tracking-widest pl-6 pt-6"
-        style={{
-          x: cursorX,
-          y: cursorY,
-          color: isHoveringClickable ? 'var(--color-accent-gold)' : 'var(--color-accent-blue)',
-        }}
-      >
-        {isHoveringClickable ? (
-          <span className="animate-pulse">[SYS.SELECT_LINK]</span>
-        ) : (
-          <span>{`[X:${coords.x} Y:${coords.y}]`}</span>
+        {/* Render crosshair ticks only for Link and 3D states */}
+        {cursorState === 'LINK' && (
+          <div className="absolute inset-[3px] rounded-full border border-dashed border-accent-blue/30" />
         )}
+      </motion.div>
+
+      {/* 
+        Inner Pointer Point
+      */}
+      <motion.div
+        className="fixed top-0 left-0 pointer-events-none z-[9999] -translate-x-1/2 -translate-y-1/2 hidden md:block flex items-center justify-center font-mono text-[9px] font-bold"
+        style={{
+          x: cursorX,
+          y: cursorY,
+          color: cursorState === 'PROJECT' ? 'var(--color-accent-gold)' : cursorState === '3D_OBJECT' ? 'var(--color-accent-teal)' : 'var(--color-accent-blue)',
+        }}
+      >
+        {cursorState === 'PROJECT' ? '•' : '+'}
+      </motion.div>
+
+      {/* 
+        Floating Status Text Display adjacent to reticle
+      */}
+      <motion.div
+        className="fixed top-0 left-0 pointer-events-none z-[9999] hidden md:block font-mono text-[7px] tracking-widest pl-5 pt-5"
+        style={{
+          x: cursorX,
+          y: cursorY,
+          color: cursorState === 'PROJECT' ? 'var(--color-accent-gold)' : cursorState === '3D_OBJECT' ? 'var(--color-accent-teal)' : 'var(--color-accent-blue)',
+        }}
+      >
+        {cursorState === 'PROJECT' && <span>[VIEW_CASE_STUDY]</span>}
+        {cursorState === '3D_OBJECT' && <span>[3D_COORDINATE_ACTIVE]</span>}
+        {cursorState === 'LINK' && <span>[SYS.NAVIGATE]</span>}
       </motion.div>
     </>
   );
