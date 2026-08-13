@@ -33,7 +33,7 @@ export default function App() {
   return (
     <div
       ref={containerRef}
-      className="relative bg-primary-dark text-text-light selection:bg-accent-blue/30 selection:text-white transition-colors duration-300 min-h-screen"
+      className="relative bg-transparent text-text-light selection:bg-accent-blue/30 selection:text-white transition-colors duration-300 min-h-screen"
     >
       {/* Holographic custom crosshair trailing pointer */}
       <CustomCursor />

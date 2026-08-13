@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Download, ArrowUpRight, Cpu, Terminal as TermIcon } from 'lucide-react';
 import { Github, Linkedin } from './BrandIcons';
@@ -8,6 +8,16 @@ import useTilt from '../hooks/useTilt';
 export default function Hero() {
   const [isHovered, setIsHovered] = useState(false);
   const consoleTilt = useTilt({ max: 6, scale: 1.01 });
+
+  // Interactive CLI Terminal Console State
+  const [inputVal, setInputVal] = useState('');
+  const [history, setHistory] = useState([
+    { type: 'system', text: 'Initializing secure portfolio shell v2.0...' },
+    { type: 'input', text: 'help' },
+    { type: 'output', text: 'Commands: [about], [skills], [cgpa], [projects], [contact], [clear], [sudo]' }
+  ]);
+  const inputRef = useRef(null);
+  const terminalEndRef = useRef(null);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -25,12 +35,70 @@ export default function Hero() {
     visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] } },
   };
 
+  const handleCommand = (e) => {
+    e.preventDefault();
+    const cmd = inputVal.trim();
+    if (!cmd) return;
+
+    const lowerCmd = cmd.toLowerCase();
+    let response = '';
+
+    switch (lowerCmd) {
+      case 'help':
+        response = 'Commands: [about], [skills], [cgpa], [projects], [contact], [clear], [sudo]';
+        break;
+      case 'about':
+        response = 'Arunnissal B - B.E. Computer Science student & Backend Engineer. Focus on Python, Django, PostgreSQL, and building production-ready systems.';
+        break;
+      case 'skills':
+        response = 'Languages: Python, Java, JavaScript. Web: Django REST, React, React Native, Spring Boot. DB: PostgreSQL, SQLite.';
+        break;
+      case 'cgpa':
+        response = 'College: Dr. NGP Institute of Technology | Current CGPA: 8.49 | History of Arrears: None';
+        break;
+      case 'projects':
+        response = 'Completed: [JeevanSetu AI], [Seminar Booking System], [UrbanEye], [Nexus AI], [Dry-Fruits Store]';
+        break;
+      case 'contact':
+        response = 'Email: arunnissal45@gmail.com | Phone: +91 9361572429 | Tamil Nadu, India';
+        break;
+      case 'clear':
+        setHistory([]);
+        setInputVal('');
+        return;
+      case 'sudo':
+      case 'sudo hack':
+      case 'secret':
+        response = '[ACCESS GRANTED] Deploying Avengers tech protocol... Arunnissal B is ready for full-stack deployment!';
+        break;
+      default:
+        response = `bash: command not found: "${cmd}". Type "help" for active links.`;
+    }
+
+    setHistory(prev => [
+      ...prev,
+      { type: 'input', text: cmd },
+      { type: 'output', text: response }
+    ]);
+    setInputVal('');
+  };
+
+  // Auto-scroll terminal logs to the bottom
+  useEffect(() => {
+    if (terminalEndRef.current) {
+      terminalEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [history]);
+
+  const focusTerminalInput = () => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  };
+
   return (
     <section className="min-h-screen flex items-center justify-start relative pt-24 pb-8 px-6 md:pt-28 overflow-hidden w-screen">
-      {/* 
-        The main content wrapper is locked within the max-w bounds, 
-        leaving the right-hand side of the page free for the full-height corner portrait.
-      */}
+      {/* Main Content Wrapper */}
       <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-8 items-center z-10">
         
         {/* Left Column: Heading, Bio, CTAs, Terminal & Socials */}
@@ -102,12 +170,13 @@ export default function Hero() {
             </div>
           </motion.div>
 
-          {/* Mock IDE Console - Compact light glassmorphism container */}
+          {/* Interactive Typing CLI Terminal Widget */}
           <motion.div 
             ref={consoleTilt.ref}
             style={consoleTilt.style}
             variants={itemVariants}
-            className="w-full max-w-xl font-mono text-[11px] md:text-[12px] text-text-muted glass-card rounded-lg overflow-hidden shadow-md mt-1 select-none"
+            onClick={focusTerminalInput}
+            className="w-full max-w-xl font-mono text-[11px] md:text-[12px] text-text-muted glass-card rounded-lg overflow-hidden shadow-md mt-1 select-none cursor-text"
           >
             <div className="flex items-center justify-between px-3 py-2 bg-slate-100/50 border-b border-slate-200/55">
               <div className="flex gap-1.5">
@@ -116,17 +185,46 @@ export default function Hero() {
                 <span className="w-2 h-2 rounded-full bg-accent-gold/60" />
               </div>
               <span className="text-[9px] text-accent-blue font-bold font-mono tracking-widest">[SYSTEM.ENV_BOOT]</span>
-              <span className="text-[9px] text-accent-blue-hover font-mono font-bold">STATUS: ONLINE</span>
+              <span className="text-[9px] text-accent-blue-hover font-mono font-bold">INTERACTIVE SHELL</span>
             </div>
-            <div className="p-3 space-y-1.5 text-left leading-relaxed">
-              <div><span className="text-sky-600 font-semibold">class</span> <span className="text-sky-800 font-bold">Developer</span>:</div>
-              <div className="pl-4"><span className="text-slate-800">name</span> = <span className="text-amber-800">"Arunnissal B"</span></div>
-              <div className="pl-4"><span className="text-slate-800">role</span> = <span className="text-amber-800">"Full Stack Developer"</span></div>
-              <div className="pl-4"><span className="text-slate-800">stack</span> = [<span className="text-amber-800">"React"</span>, <span className="text-amber-800">"Django"</span>, <span className="text-amber-800">"PostgreSQL"</span>, <span className="text-amber-800">"Spring Boot"</span>]</div>
-              <div className="pl-4"><span className="text-slate-800">cgpa</span> = <span className="text-emerald-700 font-bold">8.49</span></div>
-              <div className="pl-4"><span className="text-sky-600 font-semibold">def</span> <span className="text-sky-800">get_status</span>(<span className="text-orange-600">self</span>):</div>
-              <div className="pl-8"><span className="text-sky-600 font-semibold">return</span> <span className="text-amber-800">"Available for Internships"</span></div>
+            
+            {/* Terminal History Display */}
+            <div className="p-3 h-[120px] md:h-[135px] overflow-y-auto scrollbar-none space-y-1.5 text-left leading-relaxed">
+              {history.map((log, idx) => (
+                <div key={idx}>
+                  {log.type === 'system' && (
+                    <span className="text-slate-400 font-bold">{log.text}</span>
+                  )}
+                  {log.type === 'input' && (
+                    <div>
+                      <span className="text-accent-blue font-bold">arunnissal@portfolio:~$</span>{' '}
+                      <span className="text-text-light">{log.text}</span>
+                    </div>
+                  )}
+                  {log.type === 'output' && (
+                    <span className="text-slate-700 font-semibold">{log.text}</span>
+                  )}
+                </div>
+              ))}
+              <div ref={terminalEndRef} />
             </div>
+
+            {/* Input Form Prompt */}
+            <form onSubmit={handleCommand} className="flex border-t border-slate-200/55 bg-slate-100/20 px-3 py-2 items-center">
+              <span className="text-accent-blue font-bold mr-2">arunnissal@portfolio:~$</span>
+              <input
+                ref={inputRef}
+                type="text"
+                value={inputVal}
+                onChange={(e) => setInputVal(e.target.value)}
+                className="flex-grow bg-transparent border-none outline-none text-text-light font-mono text-[11px] md:text-[12px] p-0"
+                placeholder="Type 'help' and press Enter..."
+                autoComplete="off"
+                autoCorrect="off"
+                autoCapitalize="off"
+                spellCheck="false"
+              />
+            </form>
           </motion.div>
         </motion.div>
 

@@ -1,11 +1,12 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Briefcase, Award, Check, Target } from 'lucide-react';
+import { Briefcase, Award, Check, Target, Compass, Code } from 'lucide-react';
 import useTilt from '../hooks/useTilt';
 
 export default function Experience() {
   const internshipTilt = useTilt({ max: 5, scale: 1.01 });
   const achievementsTilt = useTilt({ max: 5, scale: 1.01 });
+  const goalsTilt = useTilt({ max: 5, scale: 1.01 });
 
   const internships = [
     {
@@ -45,11 +46,18 @@ export default function Experience() {
     'Rathinam College Hackathon', 'Samsung Solve for Tomorrow', 'IdeaForge'
   ];
 
+  const roadmapSteps = [
+    { phase: '01 / LEARN', detail: 'Master Java/Python DSA, database indexing, and query patterns.' },
+    { phase: '02 / BUILD', detail: 'Construct full-stack REST API architectures and modular interfaces.' },
+    { phase: '03 / DEPLOY', detail: 'Publish APIs on Render, hosting clients on Vercel with HTTPS setups.' },
+    { phase: '04 / OPTIMIZE', detail: 'Benchmark SQL database triggers, network payloads, and R3F canvases.' }
+  ];
+
   return (
     <section className="py-12 px-6 relative w-screen h-screen flex items-center justify-center overflow-hidden">
       <div className="max-w-6xl mx-auto z-10 w-full relative grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch max-h-[85vh] overflow-y-auto lg:overflow-visible scrollbar-none">
         
-        {/* Left Column: Section Title & Mission statement */}
+        {/* Left Column: Section Title & Professional Career Vision Roadmap */}
         <div className="lg:col-span-5 space-y-6 flex flex-col justify-between max-h-[80vh] overflow-y-auto scrollbar-none pr-2 text-left">
           <div className="space-y-4">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-accent-blue/35 bg-accent-blue/5 text-xs font-semibold text-accent-blue tracking-wider w-fit">
@@ -57,12 +65,29 @@ export default function Experience() {
               <span>Career Progress</span>
             </div>
             <h3 className="text-4xl md:text-6xl font-extrabold text-text-light leading-tight">Work &amp; Awards</h3>
-            <p className="text-text-muted text-sm md:text-base leading-relaxed">
+            <p className="text-text-muted text-sm md:text-base leading-relaxed font-sans">
               Demonstrated ability in building responsive software architectures, setting up relational schemas, and participating in engineering hackathons.
             </p>
-            <p className="text-text-muted text-sm md:text-base leading-relaxed">
-              Always eager to contribute to production environments, troubleshoot bottlenecks, and work under deadlines.
-            </p>
+          </div>
+
+          {/* Interactive Career Goals Roadmap (Expands the content & detail layout) */}
+          <div 
+            ref={goalsTilt.ref}
+            style={goalsTilt.style}
+            className="glass-card p-4 rounded-xl border border-white/50 space-y-3 mt-4"
+          >
+            <h4 className="text-text-light font-bold text-xs font-mono uppercase tracking-wider flex items-center gap-1.5">
+              <Compass size={14} className="text-accent-teal" />
+              <span>Core Development Roadmap</span>
+            </h4>
+            <div className="space-y-2">
+              {roadmapSteps.map((step, idx) => (
+                <div key={idx} className="flex gap-2.5 items-start text-xs font-mono">
+                  <span className="text-accent-blue font-bold whitespace-nowrap">{step.phase}</span>
+                  <span className="text-text-muted leading-tight font-sans text-[11px] md:text-xs">{step.detail}</span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
