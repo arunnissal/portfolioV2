@@ -9,7 +9,6 @@ import Projects from './components/Projects';
 import Contact from './components/Contact';
 import Scene3D from './components/Scene3D';
 import Preloader from './components/Preloader';
-import CustomCursor from './components/CustomCursor';
 
 export default function App() {
   const containerRef = useRef(null);
@@ -35,9 +34,6 @@ export default function App() {
       ref={containerRef}
       className="relative bg-transparent text-text-light selection:bg-accent-blue/30 selection:text-white transition-colors duration-300 min-h-screen"
     >
-      {/* Holographic custom crosshair trailing pointer */}
-      <CustomCursor />
-
       <AnimatePresence mode="wait">
         {loading ? (
           <motion.div key="preloader" exit={{ opacity: 0, transition: { duration: 0.5 } }}>
