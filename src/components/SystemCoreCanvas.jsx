@@ -72,7 +72,6 @@ function OrbitNode({ label, angle, radius, speedFactor, color, onHover }) {
         position={[0, 0.14, 0]}
         fontSize={0.065}
         color={hovered ? '#ca8a04' : '#94a3b8'}
-        font="https://fonts.gstatic.com/s/spacegrotesk/v15/V8mQoQDjQSkFJVnZa3glus919A.woff"
         anchorX="center"
         anchorY="middle"
       >

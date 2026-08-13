@@ -77,7 +77,6 @@ function FloatingNode({ position, label, color, description, projects, onHover, 
         position={[0, 0.22, 0]}
         fontSize={0.09}
         color={hovered || isActive ? '#ffffff' : '#94a3b8'}
-        font="https://fonts.gstatic.com/s/spacegrotesk/v15/V8mQoQDjQSkFJVnZa3glus919A.woff"
         anchorX="center"
         anchorY="middle"
       >
@@ -127,7 +126,6 @@ export default function Capabilities() {
               position={[0, -0.32, 0]}
               fontSize={0.1}
               color="#06b6d4"
-              font="https://fonts.gstatic.com/s/spacegrotesk/v15/V8mQoQDjQSkFJVnZa3glus919A.woff"
               anchorX="center"
               anchorY="middle"
             >

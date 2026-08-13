@@ -72,47 +72,47 @@ export default function App() {
             {/* Vertical Section Slides (9 sections) */}
             <main className="w-full">
               {/* Section 1: Home */}
-              <section id="home" className="w-screen h-screen flex-shrink-0 flex items-center justify-center overflow-hidden snap-start relative">
+              <section id="home" className="w-screen min-h-screen lg:h-screen flex-shrink-0 flex items-center justify-center overflow-y-auto lg:overflow-hidden snap-start relative">
                 <Hero />
               </section>
 
               {/* Section 2: About / Profile */}
-              <section id="about" className="w-screen h-screen flex-shrink-0 flex items-center justify-center overflow-hidden snap-start relative">
+              <section id="about" className="w-screen min-h-screen lg:h-screen flex-shrink-0 flex items-center justify-center overflow-y-auto lg:overflow-hidden snap-start relative">
                 <About />
               </section>
 
               {/* Section 3: Experience / Work & Timeline */}
-              <section id="experience" className="w-screen h-screen flex-shrink-0 flex items-center justify-center overflow-hidden snap-start relative">
+              <section id="experience" className="w-screen min-h-screen lg:h-screen flex-shrink-0 flex items-center justify-center overflow-y-auto lg:overflow-hidden snap-start relative">
                 <Experience />
               </section>
 
               {/* Section 4: Technical Capabilities */}
-              <section id="capabilities" className="w-screen h-screen flex-shrink-0 flex items-center justify-center overflow-hidden snap-start relative">
+              <section id="capabilities" className="w-screen min-h-screen lg:h-screen flex-shrink-0 flex items-center justify-center overflow-y-auto lg:overflow-hidden snap-start relative">
                 <Capabilities />
               </section>
 
               {/* Section 5: Featured Projects */}
-              <section id="projects" className="w-screen h-screen flex-shrink-0 flex items-center justify-center overflow-hidden snap-start relative">
+              <section id="projects" className="w-screen min-h-screen lg:h-screen flex-shrink-0 flex items-center justify-center overflow-y-auto lg:overflow-hidden snap-start relative">
                 <Projects />
               </section>
 
               {/* Section 6: Achievements Wall */}
-              <section id="achievements" className="w-screen h-screen flex-shrink-0 flex items-center justify-center overflow-hidden snap-start relative">
+              <section id="achievements" className="w-screen min-h-screen lg:h-screen flex-shrink-0 flex items-center justify-center overflow-y-auto lg:overflow-hidden snap-start relative">
                 <Achievements />
               </section>
 
               {/* Section 7: Build Log Journal */}
-              <section id="buildlog" className="w-screen h-screen flex-shrink-0 flex items-center justify-center overflow-hidden snap-start relative">
+              <section id="buildlog" className="w-screen min-h-screen lg:h-screen flex-shrink-0 flex items-center justify-center overflow-y-auto lg:overflow-hidden snap-start relative">
                 <BuildLog />
               </section>
 
               {/* Section 8: Code Terminal Interface */}
-              <section id="terminal" className="w-screen h-screen flex-shrink-0 flex items-center justify-center overflow-hidden snap-start relative">
+              <section id="terminal" className="w-screen min-h-screen lg:h-screen flex-shrink-0 flex items-center justify-center overflow-y-auto lg:overflow-hidden snap-start relative">
                 <TerminalWidget />
               </section>
 
               {/* Section 9: Contact Comms */}
-              <section id="contact" className="w-screen h-screen flex-shrink-0 flex items-center justify-center overflow-hidden snap-start relative">
+              <section id="contact" className="w-screen min-h-screen lg:h-screen flex-shrink-0 flex items-center justify-center overflow-y-auto lg:overflow-hidden snap-start relative">
                 <Contact />
               </section>
             </main>
