@@ -3,12 +3,7 @@ import { useState, useRef, useEffect } from 'react';
 /**
  * A custom React hook that calculates mouse-hover coordinates on a DOM element
  * and returns CSS styles for a smooth 3D parallax tilt effect.
- * 
- * @param {Object} options Configuration parameters.
- * @param {number} options.max Maximum degrees of rotation.
- * @param {number} options.perspective 3D space depth.
- * @param {number} options.scale Scaling multiplier on hover.
- * @param {number} options.speed Return transitions speed in ms.
+ * It also dynamically injects CSS custom properties to drive holographic card glare.
  */
 export default function useTilt(options = {}) {
   const ref = useRef(null);
@@ -29,9 +24,15 @@ export default function useTilt(options = {}) {
       const width = rect.width;
       const height = rect.height;
       
-      // Coordinates relative to element center
+      // Coordinates relative to element center for 3D tilt
       const x = e.clientX - rect.left - width / 2;
       const y = e.clientY - rect.top - height / 2;
+
+      // Coordinates relative to top-left for gradient light reflection
+      const localX = e.clientX - rect.left;
+      const localY = e.clientY - rect.top;
+      el.style.setProperty('--card-mouse-x', `${localX}px`);
+      el.style.setProperty('--card-mouse-y', `${localY}px`);
 
       // Calculate tilt percentages
       const rotateX = -(y / (height / 2)) * max;
